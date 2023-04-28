@@ -4,6 +4,7 @@ class UserModel {
     public lastName: string;
     public email: string;
     public password: string;
+    public role: string;
 
     public constructor(user: UserModel){
         this.userId = user.userId;
@@ -11,7 +12,9 @@ class UserModel {
         this.lastName = user.lastName;
         this.email = user.email;
         this.password = user.password;
+        this.role = user.role;
     }
 }
 
 export default UserModel;
+
