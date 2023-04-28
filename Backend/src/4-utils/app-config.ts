@@ -13,7 +13,7 @@ class AppConfig {
     public mySqlPassword = "";
 
     // Database Name: 
-    public mySqlDatabase = "____"; // Fill in database name
+    public mySqlDatabase = "vacation-database"; // Fill in database name
 }
 
 const appConfig = new AppConfig();
