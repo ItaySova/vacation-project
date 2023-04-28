@@ -1,4 +1,5 @@
-import mysql from "mysql";
+// import mysql from "mysql";
+import mysql from "mysql2";
 import appConfig from "./app-config";
 
 // Create a connection to MySQL's northwind database:
