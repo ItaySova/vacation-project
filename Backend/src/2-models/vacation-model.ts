@@ -1,10 +1,10 @@
 class VacationModel {
     
     public vacationId: number;
-    public destination: number;
+    public destination: string;
     public description: string;
-    public startDate: string;
-    public endDate: number;
+    public startDate: Date;
+    public endDate: Date;
     public price: number;
     public pictureName: string;
 
