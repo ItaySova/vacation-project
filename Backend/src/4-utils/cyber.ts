@@ -17,10 +17,7 @@ function createToken(user: UserModel): string {
 
     // Create token: 
     const token = jwt.sign(container, secretKey, options);
-    // test for decode
-
-    const ret_user = jwt.decode(token)
-    console.log(ret_user)
+ 
     // Return: 
     return token;
 }
@@ -111,12 +108,18 @@ async function verifyAdmin(request: Request): Promise<boolean> {
     });
 }
 
-async function isAdmin(token:string): Promise<boolean>{
-    
+
+async function decodeUser(request: Request): Promise<UserModel>{
+    const header = request.header("authorization");
+    const token = header.substring(7);
+    const payload = jwt.decode(token)
+    const user = (payload as any).user
+    return user;
 }
 
 export default {
     createToken,
     verifyToken,
-    verifyAdmin
+    verifyAdmin,
+    decodeUser
 };
