@@ -9,12 +9,17 @@ import dal from "../4-utils/dal";
 // Register new user: 
 async function register(user: UserModel): Promise<string> {
 
-    // TODO: Joi Validation...
+    //Joi Validation...
+    const errors = user.validateRegister();
+    if (errors) throw new ValidationError(errors);
 
     // Is username taken:
     const isTaken = await isUsernameTaken(user.firstName, user.lastName);
     if(isTaken) throw new ValidationError(`the user ${user.firstName} ${user.lastName} already exist`);
 
+    // email validation 
+    const emailTaken = await isEmailTaken(user.email);
+    if(emailTaken) throw new ValidationError(`the email ${user.email} is taken`);
     // Set role as a regular user:
     user.roleId = RoleModel.User;
 
@@ -60,15 +65,27 @@ async function isUsernameTaken(firstName: string, lastName: string): Promise<boo
     return isTaken === 1;
 }
 
+/**
+ * 
+ * @param email email to check
+ * @returns Return true if email taken
+ */
+async function isEmailTaken(email:string): Promise<boolean> {
+    const sql = `SELECT EXISTS(SELECT * FROM users_table WHERE email = '${email}') AS isTaken`;
+    const arr = await dal.execute(sql);
+    const isTaken: number = arr[0].isTaken;
+    return isTaken === 1;
+}
+
 // Login:
 async function login(credentials: CredentialsModel): Promise<string> {
 
     // TODO: Joi Validation...
-
+    const errors = credentials.validateLogin();
+    if (errors) throw new ValidationError(errors);
     // Query:
     const sql = `SELECT * FROM users_table WHERE
-        firstName = '${credentials.firstName}' AND
-        lastName = '${credentials.lastName}' AND
+        email = '${credentials.email}' AND
         password = '${credentials.password}'`;
 
     // Execute:
