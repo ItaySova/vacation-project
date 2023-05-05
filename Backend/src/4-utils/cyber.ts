@@ -17,7 +17,10 @@ function createToken(user: UserModel): string {
 
     // Create token: 
     const token = jwt.sign(container, secretKey, options);
+    // test for decode
 
+    const ret_user = jwt.decode(token)
+    console.log(ret_user)
     // Return: 
     return token;
 }
@@ -106,6 +109,10 @@ async function verifyAdmin(request: Request): Promise<boolean> {
         });
 
     });
+}
+
+async function isAdmin(token:string): Promise<boolean>{
+    
 }
 
 export default {
