@@ -42,18 +42,6 @@ router.get("/vacations/:id([0-9]+)", verifyLoggedIn, async (request: Request, re
     }
 });
 
-// todo: route will be changed to /vacations/:id
-// will be route used in the edit form
-router.get("/vacations-by-id/:id([0-9]+)", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
-    try {
-        const vacationId = +request.params.id
-        const vacation = await dataService.getSingleVacation(vacationId)
-        response.json(vacation)
-    }
-    catch(err: any) {
-        next(err);
-    }
-});
 
 router.get("/vacations-report", async (request: Request, response: Response, next: NextFunction) => {
     try {
