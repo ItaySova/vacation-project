@@ -1,3 +1,4 @@
+import Joi from "joi";
 import RoleModel from "./role-model";
 
 class UserModel {
@@ -16,6 +17,22 @@ class UserModel {
         this.password = user.password;
         this.roleId = user.roleId;
     }
+
+    // TODO: Validation...
+    public validateRegister(){
+        const result = UserModel.registerValidationSchema.validate(this);
+        return result.error?.message;
+    }
+
+    private static registerValidationSchema = Joi.object({
+        userId: Joi.forbidden(),
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        email:Joi.string().required().email(),
+        password: Joi.string().required().min(4),
+        roleId: Joi.number().required().integer().min(RoleModel.Admin).max(RoleModel.User)
+    })
+
 }
 
 export default UserModel;
