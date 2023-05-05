@@ -3,25 +3,38 @@ import dataService from "../5-services/data-service";
 import VacationModel from "../2-models/vacation-model";
 import FollowerModel from "../2-models/follower-model";
 import verifyLoggedIn from "../3-middleware/verify-logged-in";
+import cyber from "../4-utils/cyber";
 
 // todo - update the premissions
 
 const router = express.Router();
 
-router.get("/vacations", async (request: Request, response: Response, next: NextFunction) => {
+// router.get("/vacations", async (request: Request, response: Response, next: NextFunction) => {
+//     try {
+//         const vacations = await dataService.getAllVacations()
+//         response.json(vacations)
+//     }
+//     catch(err: any) {
+//         next(err);
+//     }
+// });
+
+// get all the vacations for a single user
+router.get("/vacations", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
     try {
-        const vacations = await dataService.getAllVacations()
+        const user = await cyber.decodeUser(request)
+        const vacations = await dataService.getVacations(user.userId)
         response.json(vacations)
     }
     catch(err: any) {
         next(err);
     }
 });
- // todo: will be used later with authentication
-router.get("/vacations/:id", async (request: Request, response: Response, next: NextFunction) => {
+ // get a single vacation
+router.get("/vacations/:id([0-9]+)", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
     try {
-        const userId = + request.params.id
-        const vacations = await dataService.getVacations(userId)
+        const vacationId = +request.params.id
+        const vacations = await dataService.getSingleVacation(vacationId)
         response.json(vacations)
     }
     catch(err: any) {
