@@ -96,6 +96,7 @@ async function verifyAdmin(request: Request): Promise<boolean> {
 
             // If user is not admin:
             if (user.roleId !== RoleModel.Admin) {
+                console.log(`admin role: ${RoleModel.Admin} user role: ${user.roleId}`)
                 reject(new UnauthorizedError("Access denied"));
                 return;
             }
