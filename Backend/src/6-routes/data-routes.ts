@@ -4,8 +4,9 @@ import VacationModel from "../2-models/vacation-model";
 import FollowerModel from "../2-models/follower-model";
 import verifyLoggedIn from "../3-middleware/verify-logged-in";
 import cyber from "../4-utils/cyber";
+import verifyAdmin from "../3-middleware/verify-admin";
 
-// todo - update the premissions
+// todo - update the permissions
 
 const router = express.Router();
 
@@ -43,7 +44,7 @@ router.get("/vacations/:id([0-9]+)", verifyLoggedIn, async (request: Request, re
 });
 
 
-router.get("/vacations-report", async (request: Request, response: Response, next: NextFunction) => {
+router.get("/vacations-report", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
     try {
         const vacations = await dataService.getVacationsReport()
         response.json(vacations)
