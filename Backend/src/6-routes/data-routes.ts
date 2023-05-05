@@ -1,5 +1,10 @@
 import express, { Request, Response, NextFunction } from "express";
 import dataService from "../5-services/data-service";
+import VacationModel from "../2-models/vacation-model";
+import FollowerModel from "../2-models/follower-model";
+import verifyLoggedIn from "../3-middleware/verify-logged-in";
+
+// todo - update the premissions
 
 const router = express.Router();
 
@@ -12,7 +17,7 @@ router.get("/vacations", async (request: Request, response: Response, next: Next
         next(err);
     }
 });
- // will be used later with authentication
+ // todo: will be used later with authentication
 router.get("/vacations/:id", async (request: Request, response: Response, next: NextFunction) => {
     try {
         const userId = + request.params.id
@@ -20,6 +25,89 @@ router.get("/vacations/:id", async (request: Request, response: Response, next: 
         response.json(vacations)
     }
     catch(err: any) {
+        next(err);
+    }
+});
+
+// todo: route will be changed to /vacations/:id
+// will be route used in the edit form
+router.get("/vacations-by-id/:id([0-9]+)", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const vacationId = +request.params.id
+        const vacation = await dataService.getSingleVacation(vacationId)
+        response.json(vacation)
+    }
+    catch(err: any) {
+        next(err);
+    }
+});
+
+router.get("/vacations-report", async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const vacations = await dataService.getVacationsReport()
+        response.json(vacations)
+    }
+    catch(err: any) {
+        next(err);
+    }
+});
+
+router.post("/vacations", async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const vacation = new VacationModel(request.body)
+        const addedVacation = await dataService.addVacation(vacation)
+        response.status(201).json(addedVacation)
+    }
+    catch(err: any) {
+        next(err);
+    }
+});
+
+// edit
+router.put("/vacations/:id([0-9]+)", async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        request.body.vacationId = +request.params.id
+        const vacation = new VacationModel(request.body)
+        const updatedVacation = await dataService.editVacation(vacation)
+        response.json(updatedVacation)
+    }
+    catch(err: any) {
+        next(err);
+    }
+});
+
+router.delete("/vacations/:id([0-9]+)", async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const id = +request.params.id;
+        await dataService.deleteVacation(id)
+        response.sendStatus(204);
+    }
+    catch (err: any) {
+        next(err);
+    }
+});
+
+
+router.post("/follower", async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const follower = new FollowerModel(request.body)
+        const addedFollower = await dataService.addFollow(follower)
+        response.status(201).json(addedFollower)
+    }
+    catch(err: any) {
+        next(err);
+    }
+});
+
+
+router.delete("/follower/:userId([0-9]+)/:vacationId([0-9]+)", async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const userId = +request.params.userId
+        const vacationId = +request.params.vacationId
+        await dataService.deleteFollow(userId, vacationId)
+        response.sendStatus(204);
+    }
+    catch (err: any) {
         next(err);
     }
 });
@@ -33,6 +121,5 @@ router.get("/users", async (request: Request, response: Response, next: NextFunc
         next(err);
     }
 });
-
 
 export default router;
