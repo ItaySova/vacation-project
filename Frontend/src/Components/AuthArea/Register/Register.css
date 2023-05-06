@@ -1,0 +1,17 @@
+.Register form {
+    border: 2px solid;
+    width: 300px;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px;
+    color: black;
+    text-align: left;
+}
+
+.Register select, .Register input, .Register button {
+    width: 100%;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    font-size: x-large;
+}
