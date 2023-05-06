@@ -90,10 +90,11 @@ router.delete("/vacations/:id([0-9]+)", verifyAdmin,async (request: Request, res
 });
 
 
-router.post("/follower", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
+router.post("/follower/:vacationId([0-9]+)", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
     try {
-        const follower = new FollowerModel(request.body)
-        const addedFollower = await dataService.addFollow(follower)
+        const user = await cyber.decodeUser(request)
+        const vacationId = +request.params.vacationId
+        const addedFollower = await dataService.addFollow(user.userId,vacationId)
         response.status(201).json(addedFollower)
     }
     catch(err: any) {
@@ -102,11 +103,12 @@ router.post("/follower", verifyAdmin, async (request: Request, response: Respons
 });
 
 
-router.delete("/follower/:userId([0-9]+)/:vacationId([0-9]+)", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
+router.delete("/follower/:vacationId([0-9]+)", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
     try {
-        const userId = +request.params.userId
+        const user = await cyber.decodeUser(request)
+        // const userId = +request.params.userId
         const vacationId = +request.params.vacationId
-        await dataService.deleteFollow(userId, vacationId)
+        await dataService.deleteFollow(user.userId, vacationId)
         response.sendStatus(204);
     }
     catch (err: any) {
