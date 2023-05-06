@@ -54,7 +54,7 @@ router.get("/vacations-report", verifyAdmin, async (request: Request, response: 
     }
 });
 
-router.post("/vacations", async (request: Request, response: Response, next: NextFunction) => {
+router.post("/vacations", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
     try {
         const vacation = new VacationModel(request.body)
         const addedVacation = await dataService.addVacation(vacation)
@@ -66,7 +66,7 @@ router.post("/vacations", async (request: Request, response: Response, next: Nex
 });
 
 // edit
-router.put("/vacations/:id([0-9]+)", async (request: Request, response: Response, next: NextFunction) => {
+router.put("/vacations/:id([0-9]+)", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
     try {
         request.body.vacationId = +request.params.id
         const vacation = new VacationModel(request.body)
@@ -78,7 +78,7 @@ router.put("/vacations/:id([0-9]+)", async (request: Request, response: Response
     }
 });
 
-router.delete("/vacations/:id([0-9]+)", async (request: Request, response: Response, next: NextFunction) => {
+router.delete("/vacations/:id([0-9]+)", verifyAdmin,async (request: Request, response: Response, next: NextFunction) => {
     try {
         const id = +request.params.id;
         await dataService.deleteVacation(id)
@@ -90,7 +90,7 @@ router.delete("/vacations/:id([0-9]+)", async (request: Request, response: Respo
 });
 
 
-router.post("/follower", async (request: Request, response: Response, next: NextFunction) => {
+router.post("/follower", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
     try {
         const follower = new FollowerModel(request.body)
         const addedFollower = await dataService.addFollow(follower)
@@ -102,7 +102,7 @@ router.post("/follower", async (request: Request, response: Response, next: Next
 });
 
 
-router.delete("/follower/:userId([0-9]+)/:vacationId([0-9]+)", async (request: Request, response: Response, next: NextFunction) => {
+router.delete("/follower/:userId([0-9]+)/:vacationId([0-9]+)", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
     try {
         const userId = +request.params.userId
         const vacationId = +request.params.vacationId
