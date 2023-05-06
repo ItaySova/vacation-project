@@ -2,9 +2,9 @@ class FollowerModel {
     public userId:number;
     public vacationId:number;
 
-    public constructor(follower: FollowerModel){
-        this.userId = follower.userId;
-        this.vacationId = follower.vacationId;
+    public constructor(userId:number, vacationId:number){
+        this.userId = userId;
+        this.vacationId = vacationId;
     }
 }
 
