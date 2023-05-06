@@ -30,7 +30,7 @@ async function getVacations(userId: number): Promise<VacationModel[]> {
         FROM vacation_table as V LEFT JOIN followers_table as F
         ON V.vacationId = F.vacationId
         GROUP BY vacationId
-        ORDER BY startDate
+        ORDER BY vacationId
         `;
     
     const vacations = await dal.execute(sql, [userId]);
@@ -50,7 +50,7 @@ async function addVacation(vacation:VacationModel): Promise<VacationModel>{
     // validations
     const errors = vacation.validatePost();
     if (errors) throw new ValidationError(errors);
-
+    
     const sql = `INSERT INTO vacation_table(destination,description,startDate,endDate,price,pictureName)
     VALUES ('${vacation.destination}', '${vacation.description}',
             '${vacation.startDate}', '${vacation.endDate}', '${vacation.price}', '${vacation.pictureName}')`
@@ -94,10 +94,10 @@ async function deleteVacation(id: number): Promise<void> {
 }
 
 
-async function addFollow(follower:FollowerModel): Promise<FollowerModel> {
-    const sql = `INSERT INTO followers_table VALUES(${follower.userId},${follower.vacationId})`;
+async function addFollow(userId:number, vacationId:number): Promise<number> {
+    const sql = `INSERT INTO followers_table VALUES(${userId},${vacationId})`;
     const result: OkPacket = await dal.execute(sql);
-    return follower;
+    return result.affectedRows;
 }
 
 
