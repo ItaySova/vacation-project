@@ -9,8 +9,6 @@ interface VacationCardProps {
 
 
 function VacationCard(props: VacationCardProps): JSX.Element {
-
-    const navigate = useNavigate();
     
     async function handleFollow() {
         try {
@@ -18,11 +16,10 @@ function VacationCard(props: VacationCardProps): JSX.Element {
             if(!ok) return;
             if (props.vacation.isFollowing === 0){
                 await dataService.addFollow(props.vacation.vacationId);
-                alert("added follow");
             } else {
                 await dataService.unFollow(props.vacation.vacationId)
             }
-            navigate("/vacations");
+            window.location.reload()
         }
         catch(err: any) {
             alert(err.message);
