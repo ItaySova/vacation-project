@@ -4,11 +4,24 @@ import dataService from "../../../Services/DataService";
 import VacationModel from "../../../Models/VacationModel";
 import notifyService from "../../../Services/NotifyService";
 import VacationCard from "../VacationCard/VacationCard";
+import { Navigate, Route, useNavigate } from "react-router-dom";
+import UserModel from "../../../Models/UserModel";
+import { authStore } from "../../../Redux/AuthState";
+import Login from "../../AuthArea/Login/Login";
 
 function Vacations(): JSX.Element {
 
     const [vacations, setVacations] = useState<VacationModel[]>([]);
-    
+
+    const navigate = useNavigate(); // check later
+
+    useEffect(() => {
+        const user = authStore.getState().user
+        if (!user){
+            navigate("/login")
+        }
+    },[])
+   
     // Get all products once:
     useEffect(() => {
         dataService.getAllVacations()
@@ -25,6 +38,7 @@ function Vacations(): JSX.Element {
     async function handleCheckboxB(){}
     async function handleCheckboxC(){}
     return (
+        <>
         <div className="vacations">
 			<h1>vacation list</h1>
             <br />
@@ -41,6 +55,7 @@ function Vacations(): JSX.Element {
             <br />
             {vacations.map(p => <VacationCard key={p.vacationId} vacation={p} />)}
         </div>
+        </>
     );
 }
 
