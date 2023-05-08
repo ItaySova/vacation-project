@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./Menu.css";
 import { useState, useEffect } from "react";
 import UserModel from "../../../Models/UserModel";
@@ -19,7 +19,7 @@ function Menu(): JSX.Element {
         return () => unsubscribe();
 
     }, []);
-    
+
     return (
         <div className="Menu">
 
