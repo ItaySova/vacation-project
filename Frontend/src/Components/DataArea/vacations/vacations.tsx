@@ -12,6 +12,9 @@ import Login from "../../AuthArea/Login/Login";
 function Vacations(): JSX.Element {
 
     const [vacations, setVacations] = useState<VacationModel[]>([]);
+    const [showFollowed, setSF] = useState<Boolean>();
+    const [showNotStart, setNotStart] = useState<Boolean>();
+    const [showActive, setActive] = useState<Boolean>();
 
     const navigate = useNavigate(); // check later
 
@@ -20,6 +23,12 @@ function Vacations(): JSX.Element {
         if (!user){
             navigate("/login")
         }
+    },[])
+
+    useEffect(()=>{
+        setSF(false);
+        setActive(false);
+        setNotStart(false)
     },[])
    
     // Get all products once:
@@ -31,29 +40,29 @@ function Vacations(): JSX.Element {
             .catch(err => notifyService.error(err));
     }, []);
 
-    // checkbox A is the checkbox for showing only followed vacations
-    // checkbox B is the checkbox for showing only vacations that didn't start yet
-    // checkbox C is the checkbox for showing only active vacations
-    async function handleCheckboxA(){}
-    async function handleCheckboxB(){}
-    async function handleCheckboxC(){}
+
+    async function statedTest(){
+        alert(`show followed vacations = ${showFollowed}\nshow not started = ${showNotStart}\nshow active = ${showActive}`)
+    }
     return (
         <>
         <div className="vacations">
 			<h1>vacation list</h1>
             <br />
+            <button onClick={statedTest}>states check</button>
+            <hr />
             <div id="checkBoxSection">
             <label>show only followed vacations:</label>
-            <input type="checkbox" name="checkboxA" id="checkboxA" />
+            <input type="checkbox" name="checkboxSF" id="checkboxSF" onChange={()=> {setSF(!showFollowed)}} />
             <hr />
             <label>show only vacations that didn't start yet:</label>
-            <input type="checkbox" name="checkboxB" id="checkboxB" />
+            <input type="checkbox" name="checkboxNS" id="checkboxNS" onChange={()=> {setNotStart(!showNotStart)}}/>
             <hr />
             <label>show only active vacations:</label>
-            <input type="checkbox" name="checkboxC" id="checkboxC" />
+            <input type="checkbox" name="checkboxA" id="checkboxA" onChange={()=> {setActive(!showActive)}}/>
             </div>
             <br />
-            {vacations.map(p => <VacationCard key={p.vacationId} vacation={p} />)}
+            {vacations.map(p => <VacationCard key={p.vacationId} vacation={p} showActive={showActive} showFollowed={showFollowed} showdidntStart={showNotStart}/>)}
         </div>
         </>
     );
