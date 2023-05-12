@@ -9,6 +9,7 @@ class VacationModel {
     public endDate: Date;
     public price: number;
     public pictureName: string;
+    public isFollowing?: number;
 
     public constructor(vacation: VacationModel) {
         this.vacationId = vacation.vacationId;
