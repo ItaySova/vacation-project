@@ -73,19 +73,9 @@ function Vacations(): JSX.Element {
             <hr />
             <div id="checkBoxSection">
                 <button onClick={handleShowFollowed}>show only followed vacations</button>
-                <br />
                 <button onClick={handleFuture}>show only vacations that didn't start yet</button>
-                <br />
                 <button onClick={handleShowActive}>show only active vacations</button>
                 <br />
-                <label>show only followed vacations:</label>
-                <input type="checkbox" name="checkboxSF" id="checkboxSF" onChange={() => { setSF(!showFollowed) }} />
-                <hr />
-                <label>show only vacations that didn't start yet:</label>
-                <input type="checkbox" name="checkboxNS" id="checkboxNS" onChange={() => { setFuture(!showFuture) }} />
-                <hr />
-                <label>show only active vacations:</label>
-                <input type="checkbox" name="checkboxA" id="checkboxA" onChange={() => { setActive(!showActive) }} />
             </div>
             <br />
             <div>
