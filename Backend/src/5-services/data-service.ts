@@ -40,7 +40,7 @@ async function getVacations(userId: number, options?: { page?: number, showFollo
         ON V.vacationId = F.vacationId
         GROUP BY vacationId
         ${condition}
-        ORDER BY vacationId
+        ORDER BY startDate
         `;
 
 
@@ -51,20 +51,6 @@ async function getVacations(userId: number, options?: { page?: number, showFollo
         `;
     }
     let vacations = await dal.execute(sql, [userId]);
-
-    // if (options.showFollowed) {
-    //     vacations = vacations.filter((vacation: VacationModel) => vacation.isFollowing); // add to the model the is followed
-    // }
-
-    // if (options.showFuture){
-    //     const currentDate = new Date().getTime()
-    //     vacations = vacations.filter((vacation: VacationModel) => vacation.startDate.getTime() > currentDate)
-    // }
-    
-    // if (options.showActive){
-    //     const currentDate = new Date().getTime()
-    //     vacations = vacations.filter((vacation: VacationModel) => vacation.startDate.getTime() < currentDate && vacation.endDate.getTime() > currentDate)
-    // }// ADD ANOTHER CONDITION 
 
     const numOfPagesQuery =`SELECT COUNT(vacationId) AS numOfVacations FROM vacation_table`;
     const numOfPagesRes = await dal.execute(numOfPagesQuery)
