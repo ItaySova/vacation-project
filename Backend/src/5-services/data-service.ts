@@ -46,8 +46,8 @@ async function getVacations(userId: number, options?: { page?: number, showFollo
 
     if (options?.page) {
         sql += `
-            LIMIT 10
-            OFFSET ${(options.page - 1) * 10}
+            LIMIT 9
+            OFFSET ${(options.page - 1) * 9}
         `;
     }
     let vacations = await dal.execute(sql, [userId]);
