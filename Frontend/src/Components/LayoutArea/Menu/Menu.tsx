@@ -41,6 +41,8 @@ function Menu(): JSX.Element {
             <span> | </span>
             <NavLink to="/vacationsReport">Vacations report</NavLink>
             <span> | </span>
+			<NavLink to="/list">Vacations List</NavLink>
+            <span> | </span>
             </>
             }
             {user.roleId === 2 &&
@@ -49,8 +51,6 @@ function Menu(): JSX.Element {
             <span> | </span>
             </>
             }
-			<NavLink to="/list">List</NavLink>
-            <span> | </span>
             </>}
         </div>
     );
