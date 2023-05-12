@@ -24,21 +24,28 @@ const router = express.Router();
 router.get("/vacations", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
     try {
         const user = await cyber.decodeUser(request)
-        const vacations = await dataService.getVacations(user.userId)
-        response.json(vacations)
+        console.log(request.query)
+        const serviceRequest = await dataService.getVacations(user.userId, {
+            page: Number(request.query.page),
+            showFollowed: Boolean(request.query.showFollowed),
+            showFuture: Boolean(request.query.showFuture),
+            showActive:Boolean(request.query.showActive) // ADD HERE ANOTHER PARARM
+        })
+        const data = await serviceRequest;
+        response.json(data)
     }
-    catch(err: any) {
+    catch (err: any) {
         next(err);
     }
 });
- // get a single vacation
+// get a single vacation
 router.get("/vacations/:id([0-9]+)", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
     try {
         const vacationId = +request.params.id
         const vacations = await dataService.getSingleVacation(vacationId)
         response.json(vacations)
     }
-    catch(err: any) {
+    catch (err: any) {
         next(err);
     }
 });
@@ -49,7 +56,7 @@ router.get("/vacations-report", verifyAdmin, async (request: Request, response: 
         const vacations = await dataService.getVacationsReport()
         response.json(vacations)
     }
-    catch(err: any) {
+    catch (err: any) {
         next(err);
     }
 });
@@ -60,7 +67,7 @@ router.post("/vacations", verifyAdmin, async (request: Request, response: Respon
         const addedVacation = await dataService.addVacation(vacation)
         response.status(201).json(addedVacation)
     }
-    catch(err: any) {
+    catch (err: any) {
         next(err);
     }
 });
@@ -73,12 +80,12 @@ router.put("/vacations/:id([0-9]+)", verifyAdmin, async (request: Request, respo
         const updatedVacation = await dataService.editVacation(vacation)
         response.json(updatedVacation)
     }
-    catch(err: any) {
+    catch (err: any) {
         next(err);
     }
 });
 
-router.delete("/vacations/:id([0-9]+)", verifyAdmin,async (request: Request, response: Response, next: NextFunction) => {
+router.delete("/vacations/:id([0-9]+)", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
     try {
         const id = +request.params.id;
         await dataService.deleteVacation(id)
@@ -94,10 +101,10 @@ router.post("/follower/:vacationId([0-9]+)", verifyLoggedIn, async (request: Req
     try {
         const user = await cyber.decodeUser(request)
         const vacationId = +request.params.vacationId
-        const addedFollower = await dataService.addFollow(user.userId,vacationId)
+        const addedFollower = await dataService.addFollow(user.userId, vacationId)
         response.status(201).json(addedFollower)
     }
-    catch(err: any) {
+    catch (err: any) {
         next(err);
     }
 });
@@ -121,7 +128,7 @@ router.get("/users", async (request: Request, response: Response, next: NextFunc
         const users = await dataService.getAllUsers()
         response.json(users)
     }
-    catch(err: any) {
+    catch (err: any) {
         next(err);
     }
 });
