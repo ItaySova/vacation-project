@@ -3,7 +3,6 @@ import { ResourceNotFoundError, ValidationError } from "../2-models/client-error
 import VacationModel from "../2-models/vacation-model";
 import dal from "../4-utils/dal";
 import { OkPacket } from "mysql";
-import FollowerModel from "../2-models/follower-model";
 
 async function getAllVacations(): Promise<VacationModel[]> {
     const sql = "SELECT * FROM vacation_table";
@@ -20,9 +19,19 @@ async function getAllUsers(): Promise<UserModel[]> {
 }
 
 
- // will be used later with authentication
-async function getVacations(userId: number): Promise<VacationModel[]> {
-    const sql = `
+// will be used later with authentication
+async function getVacations(userId: number, options?: { page?: number, showFollowed?: boolean, showFuture?:boolean, showActive?:boolean }): Promise<{ vacations: VacationModel[], numOfPages: number }> {
+    let condition = ``
+    if (options.showFollowed){
+        condition += `HAVING isFollowing=1`
+    }
+    if (options.showFuture){
+        condition += `HAVING startDate > CURRENT_DATE()`
+    }
+    if (options.showActive){
+        condition += `HAVING startDate <= CURRENT_DATE() AND endDate >= CURRENT_DATE()`
+    }
+    let sql = `
         SELECT DISTINCT
             V.*,
             EXISTS(SELECT * FROM followers_table WHERE vacationId = F.vacationId AND userId = ?) AS isFollowing,
@@ -30,15 +39,45 @@ async function getVacations(userId: number): Promise<VacationModel[]> {
         FROM vacation_table as V LEFT JOIN followers_table as F
         ON V.vacationId = F.vacationId
         GROUP BY vacationId
+        ${condition}
         ORDER BY vacationId
         `;
-    
-    const vacations = await dal.execute(sql, [userId]);
 
-    return vacations;
+
+    if (options?.page) {
+        sql += `
+            LIMIT 10
+            OFFSET ${(options.page - 1) * 10}
+        `;
+    }
+    let vacations = await dal.execute(sql, [userId]);
+
+    // if (options.showFollowed) {
+    //     vacations = vacations.filter((vacation: VacationModel) => vacation.isFollowing); // add to the model the is followed
+    // }
+
+    // if (options.showFuture){
+    //     const currentDate = new Date().getTime()
+    //     vacations = vacations.filter((vacation: VacationModel) => vacation.startDate.getTime() > currentDate)
+    // }
+    
+    // if (options.showActive){
+    //     const currentDate = new Date().getTime()
+    //     vacations = vacations.filter((vacation: VacationModel) => vacation.startDate.getTime() < currentDate && vacation.endDate.getTime() > currentDate)
+    // }// ADD ANOTHER CONDITION 
+
+    const numOfPagesQuery =`SELECT COUNT(vacationId) AS numOfVacations FROM vacation_table`;
+    const numOfPagesRes = await dal.execute(numOfPagesQuery)
+    const numOfPages = Math.ceil(numOfPagesRes[0].numOfVacations / 10)
+
+
+    return {
+        vacations,
+        numOfPages,
+    };
 }
 
-async function getSingleVacation(id:number): Promise<VacationModel> {
+async function getSingleVacation(id: number): Promise<VacationModel> {
     const sql = `SELECT * FROM vacation_table WHERE vacationId = ${id}`
     const vacations = await dal.execute(sql);
     const vacation = vacations[0];
@@ -46,11 +85,11 @@ async function getSingleVacation(id:number): Promise<VacationModel> {
     return vacation;
 }
 
-async function addVacation(vacation:VacationModel): Promise<VacationModel>{
+async function addVacation(vacation: VacationModel): Promise<VacationModel> {
     // validations
     const errors = vacation.validatePost();
     if (errors) throw new ValidationError(errors);
-    
+
     const sql = `INSERT INTO vacation_table(destination,description,startDate,endDate,price,pictureName)
     VALUES ('${vacation.destination}', '${vacation.description}',
             '${vacation.startDate}', '${vacation.endDate}', '${vacation.price}', '${vacation.pictureName}')`
@@ -59,7 +98,7 @@ async function addVacation(vacation:VacationModel): Promise<VacationModel>{
     return vacation;
 }
 
-async function editVacation(vacation:VacationModel): Promise<VacationModel>{
+async function editVacation(vacation: VacationModel): Promise<VacationModel> {
     const errors = vacation.validatePut();
     if (errors) throw new ValidationError(errors);
     const sql = `UPDATE vacation_table SET
@@ -94,14 +133,14 @@ async function deleteVacation(id: number): Promise<void> {
 }
 
 
-async function addFollow(userId:number, vacationId:number): Promise<number> {
+async function addFollow(userId: number, vacationId: number): Promise<number> {
     const sql = `INSERT INTO followers_table VALUES(${userId},${vacationId})`;
     const result: OkPacket = await dal.execute(sql);
     return result.affectedRows;
 }
 
 
-async function deleteFollow(userId:number, vacationId:number): Promise<void> {
+async function deleteFollow(userId: number, vacationId: number): Promise<void> {
     const sql = `DELETE FROM followers_table WHERE userId=${userId} AND vacationId=${vacationId}`;
     const result: OkPacket = await dal.execute(sql);
 }
@@ -116,7 +155,7 @@ async function getVacationsReport(): Promise<VacationModel[]> {
         GROUP BY destination
         ORDER BY followersCount DESC
         `;
-    
+
     const vacations = await dal.execute(sql);
 
     return vacations;
