@@ -5,27 +5,54 @@ import appConfig from "../Utils/AppConfig";
 import FollowerModel from "../Models/FollowerModel";
 
 class DataService {
-    public async getAllVacations(): Promise<VacationModel[]> {
+    public async getAllVacations(data?: { page?: number, showFollowed?: boolean, showFuture?:boolean, showActive?:boolean }): Promise<{ vacations: VacationModel[], numOfPages: number }> {
 
         // Take products from global state:
-        let vacations = vacationsStore.getState().vacations;
+        let vacations: VacationModel[] = vacationsStore.getState().vacations;
+        let numOfPages = 1;
 
         // If we don't have products - get them from backend:
-        if (vacations.length === 0) {
+        // if (vacations.length === 0) {
 
-            // Get from REST API products: 
-            const response = await axios.get<VacationModel[]>(appConfig.vacationsUrl);
+        let url = appConfig.vacationsUrl;
 
-            // Extract products: 
-            vacations = response.data; // data will be ProductModel[]
+        const queryParams = new URLSearchParams();
 
-            // Update global store: 
-            vacationsStore.dispatch({ type: VacationsActionType.FetchVacations, payload: vacations });
+        if (data?.page) {
+            queryParams.append('page', String(data.page));
         }
+
+        if (data?.showFollowed) {
+            queryParams.append('showFollowed', String(data.showFollowed));
+        }
+
+        if (data?.showFuture) {
+            queryParams.append('showFuture', String(data.showFuture));
+        }
+
+        if (data?.showActive) {
+            queryParams.append('showActive', String(data.showActive));
+        }
+
+        url += `?${queryParams.toString()}`;
+
+        // Get from REST API products: 
+        const response = await axios.get<{ vacations: VacationModel[], numOfPages: number }>(url);
+
+        // Extract products: 
+        vacations = response.data.vacations; // data will be ProductModel[]
+        numOfPages = response.data.numOfPages;
+
+        // Update global store: 
+        vacationsStore.dispatch({ type: VacationsActionType.FetchVacations, payload: vacations });
+
 
         // Return:
         console.log(vacations)
-        return vacations;
+        return {
+            vacations, // vacations: vactions - the same ike
+            numOfPages: Number(numOfPages),
+        };
     }
 
 
@@ -53,7 +80,7 @@ class DataService {
         return vacation;
     }
 
-    public async addFollow(vacationId: number): Promise<void>{
+    public async addFollow(vacationId: number): Promise<void> {
 
         // Create header for sending image inside the body:
         const headers = { "Content-Type": "multipart/form-data" };
@@ -68,14 +95,14 @@ class DataService {
         // vacationsStore.dispatch({ type: ProductsActionType.AddProduct, payload: addedProduct });
     }
 
-    public async unFollow(vacationId: number): Promise<void>{
+    public async unFollow(vacationId: number): Promise<void> {
 
         // Create header for sending image inside the body:
         const headers = { "Content-Type": "multipart/form-data" };
 
         // Send product to server:
         const response = await axios.delete<FollowerModel>(appConfig.followerUrl + vacationId, { headers });
-        console.log(response)
+        // console.log(response)
         // Get the added product:
         // const addedProduct = response.data;
 
