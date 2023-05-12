@@ -4,13 +4,13 @@ import UserModel from "../Models/UserModel";
 
 // 1. Global Auth State:
 export class AuthState {
-    
     public token: string = null;
     public user: UserModel = null;
 
     public constructor() {
         this.token = localStorage.getItem("token");
-        if(this.token) {
+
+        if (this.token) {
             this.user = jwtDecode<{ user: UserModel }>(this.token).user; // Extract user from token.
         }
     }
