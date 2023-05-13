@@ -1,3 +1,25 @@
 .VacationCardAdmin {
-	
+	width: 500px;
+    display: inline-flex;
+    text-align: left;
+    border: 1px solid;
+    border-radius: 10px;
+    /* background-image: linear-gradient(90deg, lightgreen, white); */
+}
+
+.VacationCardAdmin img {
+    width: 100px;
+    height: 100px;
+    border: 1px solid;
+    border-radius: 10px;
+    vertical-align: middle;
+}
+
+.VacationCardAdmin > div:last-child {
+    margin-left: auto;
+}
+
+.VacationCardAdmin NavLink {
+    border: 1px solid;
+    border-radius: 5px;
 }
