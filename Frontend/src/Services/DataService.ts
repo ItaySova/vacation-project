@@ -80,6 +80,16 @@ class DataService {
         return vacation;
     }
 
+    public async deleteVacation(id: number): Promise<void> {
+
+        // Delete product on server:
+        await axios.delete(appConfig.vacationsUrl + id);
+
+        // Delete that product form our global store: 
+        vacationsStore.dispatch({ type: VacationsActionType.DeleteVacation, payload: id });
+    }
+
+    
     public async addFollow(vacationId: number): Promise<void> {
 
         // Create header for sending image inside the body:
@@ -109,6 +119,7 @@ class DataService {
         // Add that addedProduct also to the global state: 
         // vacationsStore.dispatch({ type: ProductsActionType.AddProduct, payload: addedProduct });
     }
+
 }
 
 const dataService = new DataService();
