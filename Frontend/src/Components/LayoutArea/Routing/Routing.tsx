@@ -7,6 +7,7 @@ import Login from "../../AuthArea/Login/Login";
 import Register from "../../AuthArea/Register/Register";
 import Vacations from "../../DataArea/vacations/vacations";
 import VacationsReport from "../../DataArea/VacationsReport/VacationsReport";
+import EditVacation from "../../DataArea/EditVacation/EditVacation";
 
 function Routing(): JSX.Element {
     return (
@@ -17,11 +18,12 @@ function Routing(): JSX.Element {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/vacations" element={<Vacations />} />
+            <Route path="/vacations/edit/:vacationId" element={<EditVacation />} />
             <Route path="/vacationsReport" element={<VacationsReport />} />
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="*" element={<PageNotFound />} />
         </Routes>
     );
 }
-// <NavLink to="/vacationsReport">Vacations report</NavLink>
+// <NavLink to="/vacationsReport">Vacations report</NavLink> /products/edit/:prodId
 export default Routing;
