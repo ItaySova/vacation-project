@@ -6,6 +6,7 @@ import notifyService from "../../../Services/NotifyService";
 import VacationCard from "../VacationCard/VacationCard";
 import { Navigate, Route, useNavigate } from "react-router-dom";
 import { authStore } from "../../../Redux/AuthState";
+import authService from "../../../Services/AuthService";
 
 function Vacations(): JSX.Element {
     const navigate = useNavigate(); // check later
@@ -34,8 +35,11 @@ function Vacations(): JSX.Element {
                 setPagesState(response.numOfPages)
             })
             .catch(err => {
-                alert(notifyService.error(err))
-                });
+                if (err.response.data === 'Invalid token'){
+                    authService.logout();
+                    navigate("/login");
+                }
+                return notifyService.error(err)});
     }, [pageState, showFollowed, showFuture,showActive]); // ADD EHERE
 
 
