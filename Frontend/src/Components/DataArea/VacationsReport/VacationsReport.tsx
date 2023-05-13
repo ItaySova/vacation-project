@@ -5,10 +5,12 @@ import notifyService from "../../../Services/NotifyService";
 import "./VacationsReport.css";
 import ReportChart from "../ReportChart/ReportChart";
 import { CSVLink } from "react-csv";
+import authService from "../../../Services/AuthService";
+import { useNavigate } from "react-router-dom";
 
 function VacationsReport(): JSX.Element {
     const [vacations, setVacations] = useState<VacationModel[]>([]);
-
+    const navigate = useNavigate();
     // Get all products once:
     useEffect(() => {
         dataService.getAllVacations()
@@ -16,7 +18,12 @@ function VacationsReport(): JSX.Element {
             console.log(response.vacations)
             setVacations(response.vacations)
         })
-        .catch(err => notifyService.error(err));
+        .catch(err => {
+            if (err.response.data === 'Invalid token'){
+                authService.logout();
+                navigate("/login");
+            }
+            return notifyService.error(err)});
     }, []);
 
     const headers = [
