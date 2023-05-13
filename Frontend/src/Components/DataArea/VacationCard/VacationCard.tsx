@@ -47,8 +47,6 @@ function VacationCard(props: VacationCardProps): JSX.Element {
     function checkNotStart() {
         const currentDate = new Date()
         const startDate = new Date(props.vacation.startDate).getTime()
-        // alert(startDate > currentDate.getTime())
-        // alert(`${startDate} < ${currentDate.getTime()}`)
         if (startDate > currentDate.getTime()) {
             return true;
         }
