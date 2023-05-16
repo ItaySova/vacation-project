@@ -72,6 +72,7 @@ async function getSingleVacation(id: number): Promise<VacationModel> {
 }
 
 async function addVacation(vacation: VacationModel): Promise<VacationModel> {
+    delete vacation.vacationId
     // validations
     const errors = vacation.validatePost();
     if (errors) throw new ValidationError(errors);
@@ -85,6 +86,8 @@ async function addVacation(vacation: VacationModel): Promise<VacationModel> {
 }
 
 async function editVacation(vacation: VacationModel): Promise<VacationModel> {
+    // console.log("from backend service:")
+    // console.log(vacation)
     const errors = vacation.validatePut();
     if (errors) throw new ValidationError(errors);
     const sql = `UPDATE vacation_table SET
