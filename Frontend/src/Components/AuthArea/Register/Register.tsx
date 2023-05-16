@@ -4,6 +4,7 @@ import UserModel from "../../../Models/UserModel";
 import authService from "../../../Services/AuthService";
 import notifyService from "../../../Services/NotifyService";
 import "./Register.css";
+import RoleModel from "../../../Models/RoleModel";
 
 function Register(): JSX.Element {
 
@@ -12,6 +13,7 @@ function Register(): JSX.Element {
 
     async function send(user: UserModel) {
         try {
+            user.roleId = RoleModel.User;
             await authService.register(user);
             notifyService.success("Welcome!");
             navigate("/home");
@@ -29,16 +31,16 @@ function Register(): JSX.Element {
             <form onSubmit={handleSubmit(send)}>
 
                 <label>First name:</label>
-                <input type="text" {...register("firstName")} />
+                <input type="text" {...register("firstName")} required/>
 
                 <label>Last name:</label>
-                <input type="text" {...register("lastName")} />
+                <input type="text" {...register("lastName")} required />
 
                 <label>email:</label>
-                <input type="text" {...register("email")} />
+                <input type="text" {...register("email")} required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
 
                 <label>Password:</label>
-                <input type="password" {...register("password")} />
+                <input type="password" {...register("password")} required minLength={4}/>
 
                 <button>Register</button>
 
