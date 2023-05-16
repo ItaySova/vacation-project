@@ -23,7 +23,7 @@ function VacationCardAdmin(props: VacationCardProps): JSX.Element {
             const ok = window.confirm("Are you sure?");
             if(!ok) return;
             await dataService.deleteVacation(props.vacation.vacationId);
-            notifyService.success("Product has been deleted");
+            notifyService.success("vacation has been deleted");
             navigate("/list");
         }
         catch(err: any) {
