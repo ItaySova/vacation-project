@@ -21,12 +21,7 @@ class NotifyService {
         if (typeof err === "string") return err;
 
         // If error thrown by axios:
-        if (err.response?.data) {
-            // if (err.response.data === 'Invalid token'){
-            //     alert('invalid token please sign in');
-            //     return;
-            // }
-            return err.response.data};
+        if (err.response?.data) return err.response.data;
 
         // Unknown error (JIC = Just in Case)
         return "Some error, please try again";
