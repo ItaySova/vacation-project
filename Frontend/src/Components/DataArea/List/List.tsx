@@ -15,8 +15,9 @@ function List(): JSX.Element {
     const navigate = useNavigate(); 
     useEffect(() => {
         const user = authStore.getState().user;
+        const token = authStore.getState().token
 
-        if (!user) {
+        if (!user || !token) {
             navigate("/login");
         }
     }, [])
@@ -30,10 +31,10 @@ function List(): JSX.Element {
                 setPagesState(response.numOfPages)
             })
             .catch(err => {
-                if (err.response.data === 'Invalid token'){
-                    authService.logout();
-                    navigate("/login");
-                }
+                // if (err.response.data === 'Invalid token'){
+                //     authService.logout();
+                //     navigate("/login");
+                // }
                 return notifyService.error(err)});
     }, [pageState]);
     return (
