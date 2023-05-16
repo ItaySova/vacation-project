@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import expressFileUpload from "express-fileupload";
 import dataRoutes from "./6-routes/data-routes";
 import authRoute from "./6-routes/auth-routes";
 import routeNotFound from "./3-middleware/route-not-found";
@@ -10,6 +11,7 @@ const server = express();
 
 server.use(cors());
 server.use(express.json());
+server.use(expressFileUpload());
 server.use("/api", dataRoutes);
 server.use("/api", authRoute);
 server.use(routeNotFound);
