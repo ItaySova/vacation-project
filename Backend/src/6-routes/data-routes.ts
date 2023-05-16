@@ -76,6 +76,8 @@ router.post("/vacations", verifyAdmin, async (request: Request, response: Respon
 router.put("/vacations/:id([0-9]+)", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
     try {
         request.body.vacationId = +request.params.id
+        // console.log("from route")
+        // console.log(request.headers.)
         const vacation = new VacationModel(request.body)
         const updatedVacation = await dataService.editVacation(vacation)
         response.json(updatedVacation)
