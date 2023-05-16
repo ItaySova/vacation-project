@@ -7,6 +7,7 @@ import VacationCard from "../VacationCard/VacationCard";
 import { Navigate, Route, useNavigate } from "react-router-dom";
 import { authStore } from "../../../Redux/AuthState";
 import authService from "../../../Services/AuthService";
+import { vacationsStore } from "../../../Redux/VacationsState";
 
 function Vacations(): JSX.Element {
     const navigate = useNavigate();
@@ -24,46 +25,48 @@ function Vacations(): JSX.Element {
         if (!user) {
             navigate("/login");
         }
+
     }, [])
 
-    // Get all products once:
+    // Get all vacations every time a filter is chosen once:
     useEffect(() => {
-        dataService.getAllVacations({ page: pageState, showFollowed , showFuture,showActive}) // ADD HERE
+        dataService.getAllVacations({ page: pageState, showFollowed, showFuture, showActive })
             .then(response => {
-                console.log(response.vacations)
                 setVacations(response.vacations)
                 setPagesState(response.numOfPages)
             })
             .catch(err => {
-                if (err.response.data === 'Invalid token'){
+                if (err.response.data === 'Invalid token') {
                     authService.logout();
                     navigate("/login");
-                }
-                return notifyService.error(err)});
-    }, [pageState, showFollowed, showFuture,showActive]); // ADD EHERE
+                } // check if need to remove 
+                return notifyService.error(err)
+            });
+
+        const unsubscribe = vacationsStore.subscribe(() => {
+            const duplicatedVacations = [...vacationsStore.getState().vacations];
+            setVacations(duplicatedVacations);
+        });
+    }, [pageState, showFollowed, showFuture, showActive]);
 
 
-    async function statedTest() {
-        alert(`show followed vacations = ${showFollowed}\nshow not started = ${showFuture}\nshow active = ${showActive}`)
-    }
-
-    function handleShowFollowed(){
-        if(!showFollowed){
+    function handleShowFollowed() {
+        if (!showFollowed) {
             setFuture(false);
             setActive(false);
         }
         setSF(!showFollowed);
     }
-    function handleFuture(){
-        if(!showFuture){
+    function handleFuture() {
+        if (!showFuture) {
             setSF(false);
             setActive(false);
         }
         setFuture(!showFuture);
     }
 
-    function handleShowActive(){
-        if(!showActive){
+    function handleShowActive() {
+        if (!showActive) {
             setSF(false);
             setFuture(false);
         }
@@ -72,8 +75,6 @@ function Vacations(): JSX.Element {
     return (
         <div className="vacations">
             <h1>vacation list</h1>
-            <br />
-            <button onClick={statedTest}>states check</button>
             <hr />
             <div id="checkBoxSection">
                 <button onClick={handleShowFollowed}>show only followed vacations</button>
