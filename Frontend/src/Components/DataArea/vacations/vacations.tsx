@@ -9,7 +9,7 @@ import { authStore } from "../../../Redux/AuthState";
 import authService from "../../../Services/AuthService";
 
 function Vacations(): JSX.Element {
-    const navigate = useNavigate(); // check later
+    const navigate = useNavigate();
 
     const [vacations, setVacations] = useState<VacationModel[]>([]);
     const [showFollowed, setSF] = useState<boolean>(false);
