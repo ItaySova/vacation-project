@@ -29,10 +29,10 @@ function Login(): JSX.Element {
             <form onSubmit={handleSubmit(send)}>
 
                 <label>email:</label>
-                <input type="text" {...register("email")} />
+                <input type="text" {...register("email")} required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"/>
 
                 <label>Password:</label>
-                <input type="password" {...register("password")} />
+                <input type="password" {...register("password")} required/>
 
                 <button>Login</button>
 
