@@ -80,6 +80,37 @@ class DataService {
         return vacation;
     }
 
+    public async addVacation(vacation: VacationModel): Promise<void>{
+        // Create header for sending image inside the body:
+        // const headers = { "Content-Type": "multipart/form-data" }
+
+        // Send product to server:
+        // const response = await axios.put<VacationModel>(appConfig.vacationsUrl + vacation.vacationId, vacation, { headers });
+        const response = await axios.post<VacationModel>(appConfig.vacationsUrl, vacation);
+        // Get the updated product:
+        const addedVacation = response.data;
+
+        // Update global store with the updatedProduct: 
+        vacationsStore.dispatch({ type: VacationsActionType.AddVacation , payload: addedVacation });
+    }
+
+
+    public async editVacation(vacation: VacationModel): Promise<void>{
+        // Create header for sending image inside the body:
+        // const headers = { "Content-Type": "multipart/form-data" }
+        console.log(`from front service to url: ${appConfig.vacationsUrl + vacation.vacationId}`)
+        console.log(vacation)
+        // Send product to server:
+        // const response = await axios.put<VacationModel>(appConfig.vacationsUrl + vacation.vacationId, vacation, { headers });
+        const response = await axios.put<VacationModel>(appConfig.vacationsUrl + vacation.vacationId, vacation);
+        // Get the updated product:
+        const updatedVacation = response.data;
+
+        // Update global store with the updatedProduct: 
+        vacationsStore.dispatch({ type: VacationsActionType.UpdateVacation, payload: updatedVacation });
+    }
+
+
     public async deleteVacation(id: number): Promise<void> {
 
         // Delete product on server:
