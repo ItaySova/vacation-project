@@ -11,6 +11,7 @@ function Home(): JSX.Element {
         const user = authStore.getState().user;
         if (!user) {
             navigate("/login");
+            return;
         }
         if (user.roleId === RoleModel.User){
             navigate("/vacations")
