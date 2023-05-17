@@ -21,11 +21,14 @@ function Vacations(): JSX.Element {
 
     useEffect(() => {
         const user = authStore.getState().user;
-
         if (!user) {
             navigate("/login");
         }
 
+        const unsubscribe = vacationsStore.subscribe(() => {
+            const duplicatedVacations = [...vacationsStore.getState().vacations];
+            setVacations(duplicatedVacations);
+        });
     }, [])
 
     // Get all vacations every time a filter is chosen once:
@@ -43,10 +46,6 @@ function Vacations(): JSX.Element {
                 return notifyService.error(err)
             });
 
-        const unsubscribe = vacationsStore.subscribe(() => {
-            const duplicatedVacations = [...vacationsStore.getState().vacations];
-            setVacations(duplicatedVacations);
-        });
     }, [pageState, showFollowed, showFuture, showActive]);
 
 
