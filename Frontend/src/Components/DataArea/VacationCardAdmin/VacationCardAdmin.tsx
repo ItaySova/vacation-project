@@ -34,21 +34,15 @@ function VacationCardAdmin(props: VacationCardProps): JSX.Element {
     return (
         <div className="VacationCardAdmin">
 			    <div>
-                vacations id: {props.vacation.vacationId}
-                <br />
-                dest: {props.vacation.destination}
-                <br />
-                Price: {props.vacation.price}
-                <br />
-                description: {props.vacation.description}
+                <img src={props.vacation.pictureName} />
                 <br />
                 dates: {startDate.toDateString()} - {endtDate.toDateString()}
                 <br />
-                picture name: {props.vacation.pictureName}
+                dest: {props.vacation.destination}
                 <br />
-                followers: {props.vacation.followersCount}
+                description: {props.vacation.description}
                 <br />
-                follows: {props.vacation.isFollowing}
+                Price: {props.vacation.price}                
                 <br />
                 <button>
                     <NavLink to={"/vacations/edit/" + props.vacation.vacationId}>Edit</NavLink>
