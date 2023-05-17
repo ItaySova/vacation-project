@@ -6,7 +6,8 @@ class VacationModel {
     public startDate: Date;
     public endDate: Date;
     public price: number;
-    public pictureName: string;
+    public pictureName: string; // url
+    public image: File;
     public followersCount?:number;
     public isFollowing?:number;
 
