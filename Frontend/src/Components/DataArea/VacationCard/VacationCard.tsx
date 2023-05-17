@@ -10,21 +10,17 @@ interface VacationCardProps {
 
 
 function VacationCard(props: VacationCardProps): JSX.Element {
-    // const [like, setLike] = useState<number>(props.vacation.isFollowing);
+
     const startDate = new Date(props.vacation.startDate) // add to checks
+
     const endDate = new Date(props.vacation.endDate)
+
     async function handleFollow() {
         try {
-            // const ok = window.confirm("Are you sure?");
-            // if (!ok) return;
             if (props.vacation.isFollowing === 0) {
                 await dataService.addFollow(props.vacation.vacationId);
-                // props.vacation.isFollowing = 1;
-                // setLike(1);
             } else {
                 await dataService.unFollow(props.vacation.vacationId)
-                // props.vacation.isFollowing = 0;
-                // setLike(0);
             }
         }
         catch (err: any) {
@@ -36,23 +32,23 @@ function VacationCard(props: VacationCardProps): JSX.Element {
     return (
         <div className="VacationCard Box">
             <div>
-                vacations id: {props.vacation.vacationId}
-                <br />
-                dest: {props.vacation.destination}
-                <br />
-                Price: {props.vacation.price}
-                <br />
-                description: {props.vacation.description}
+                <img src={props.vacation.pictureName} />
                 <br />
                 dates: {startDate.toDateString()} - {endDate.toDateString()}
                 <br />
-                picture name: {props.vacation.pictureName}
+                dest: {props.vacation.destination}
+                <br />
+                description: {props.vacation.description}
                 <br />
                 followers: {props.vacation.followersCount}
                 <br />
                 follows: {props.vacation.isFollowing}
                 <br />
-                <button onClick={handleFollow}> {props.vacation.isFollowing === 0 ? "Like ❤": "unfollow" }</button>
+                <button id={`likeButton${props.vacation.vacationId}`} onClick={handleFollow}> {props.vacation.isFollowing === 0 ? "Like ❤": "unfollow" }</button>
+                <br />
+                <div className="priceTag">
+                    Price: {props.vacation.price}
+                </div>
             </div>
         </div>)
 
