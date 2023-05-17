@@ -8,8 +8,8 @@
 }
 
 .VacationCard img {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: auto;
     border: 1px solid;
     border-radius: 10px;
     vertical-align: middle;
@@ -17,4 +17,10 @@
 
 .VacationCard > div:last-child {
     margin-left: auto;
+}
+
+.priceTag {
+    color: white;
+    background-color:blue;
+    text-align: center;
 }
