@@ -1,5 +1,6 @@
 import { createStore } from "redux";
 import VacationModel from "../Models/VacationModel";
+import { authStore } from "./AuthState";
 
 // 1. Products State - The application level state regarding products: 
 export class VacationsState {
@@ -11,7 +12,9 @@ export enum VacationsActionType {
     FetchVacations,
     AddVacation,
     UpdateVacation,
-    DeleteVacation
+    DeleteVacation,
+    addFollow,
+    removeFollow
 }
 
 // 3. Products Action - Interface describing an object for performing one action on our products global state:
@@ -49,6 +52,21 @@ export function vacationsReducer(currentState = new VacationsState(), action: Va
             if (indexToDelete >= 0) {
                 newState.vacations.splice(indexToDelete, 1);
             }
+            break;
+
+        // follow redux state
+        case VacationsActionType.addFollow:
+            const indexToAddFollow = newState.vacations.findIndex(p => p.vacationId === action.payload[1])
+            // update the follow state
+            newState.vacations[indexToAddFollow].isFollowing = 1;
+            newState.vacations[indexToAddFollow].followersCount += 1;
+            break;
+
+        case VacationsActionType.removeFollow:
+            const indexToRemoveFollow = newState.vacations.findIndex(p => p.vacationId === action.payload)
+            // update the follow state
+            newState.vacations[indexToRemoveFollow].isFollowing = 0;
+            newState.vacations[indexToRemoveFollow].followersCount -= 1;
             break;
     }
 
