@@ -1,3 +1,4 @@
+import { UploadedFile } from "express-fileupload";
 import Joi from "joi";
 
 class VacationModel {
@@ -9,6 +10,7 @@ class VacationModel {
     public endDate: Date;
     public price: number;
     public pictureName: string;
+    public image: UploadedFile;
 
     public constructor(vacation: VacationModel) {
         this.vacationId = vacation.vacationId;
@@ -18,6 +20,8 @@ class VacationModel {
         this.endDate = vacation.endDate;
         this.price = vacation.price;
         this.pictureName = vacation.pictureName;
+        this.image = vacation.image;
+        
     }
 
     // TODO: Validation...
@@ -38,7 +42,8 @@ class VacationModel {
         startDate: Joi.required(),
         endDate: Joi.required() ,
         price:Joi.number().required().min(0).max(10000),
-        pictureName: Joi.required()
+        pictureName: Joi.string().optional(),
+        image: Joi.object().required()
     })
 
     private static putValidationSchema = Joi.object({
@@ -48,7 +53,8 @@ class VacationModel {
         startDate: Joi.required(),
         endDate: Joi.required() ,
         price:Joi.number().required().min(0).max(10000),
-        pictureName: Joi.required()
+        pictureName: Joi.string().optional(),
+        image: Joi.object().optional()
     })
 
 }
