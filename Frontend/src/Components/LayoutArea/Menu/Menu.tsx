@@ -33,11 +33,9 @@ function Menu(): JSX.Element {
             }
             {user &&
             <>
-			<NavLink to="/home">Home</NavLink>
-            <span> | </span>
             {user.roleId === 1 &&
             <>
-			<NavLink to="/insert">Insert</NavLink>
+			<NavLink to="/insert">Add Vacation</NavLink>
             <span> | </span>
             <NavLink to="/vacationsReport">Vacations report</NavLink>
             <span> | </span>
