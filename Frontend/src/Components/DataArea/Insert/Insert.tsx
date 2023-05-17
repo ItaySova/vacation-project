@@ -12,9 +12,7 @@ function Insert(): JSX.Element {
 
     async function send(vacation: VacationModel) {
         try {
-            // vacation.image = (product.image as unknown as FileList)[0];
-            console.log(`vacation from send: ${vacation}`)
-            console.log(vacation)
+            vacation.image = (vacation.image as unknown as FileList)[0];
             await dataService.addVacation(vacation);
             notifyService.success("vacation has been added");
             navigate("/list");
@@ -26,7 +24,7 @@ function Insert(): JSX.Element {
 
     return (
         <div className="Insert">
-            <h2>Edit Product</h2>
+            <h2>add vacation</h2>
 
             <form onSubmit={handleSubmit(send)}>
 
@@ -51,10 +49,10 @@ function Insert(): JSX.Element {
                 <hr />
 
                 <label>Image: </label>
-                <input type="text" {...register("pictureName")} />
+                <input type="file" accept="image/*" {...register("image")} />
 
 
-                <button>Update</button>
+                <button>add vacation</button>
 
             </form>
         </div>
@@ -62,3 +60,7 @@ function Insert(): JSX.Element {
 }
 
 export default Insert;
+
+
+// {/* <label>Image: </label> */}
+// {/* <input type="text" {...register("pictureName")} /> */}
