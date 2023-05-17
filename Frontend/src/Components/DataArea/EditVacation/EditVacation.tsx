@@ -18,13 +18,14 @@ function EditVacation(): JSX.Element {
         const id = +params.vacationId;
         dataService.getOneVacation(id)
             .then(responseVacation => {
+                const newStart = dateParser(responseVacation.startDate as any);
+                const endDate = dateParser(responseVacation.endDate as any);
                 setValue("vacationId", responseVacation.vacationId);
                 setValue("destination", responseVacation.destination);
                 setValue("description", responseVacation.description);
-                setValue("startDate", responseVacation.startDate);
-                setValue("endDate", responseVacation.endDate);
+                setValue("startDate", newStart as any);
+                setValue("endDate", endDate as any);
                 setValue("price", responseVacation.price);
-                setValue("pictureName", responseVacation.pictureName);
                 setVacation(responseVacation);
             })
             .catch(err => notifyService.error(err));
@@ -32,9 +33,7 @@ function EditVacation(): JSX.Element {
 
     async function send(vacation: VacationModel) {
         try {
-            // vacation.image = (product.image as unknown as FileList)[0];
-            // console.log(`vacation from send: ${vacation}`)
-            // console.log(vacation)
+            vacation.image = (vacation.image as unknown as FileList)[0];
             if (vacation.endDate < vacation.startDate) {
                 alert("start date must be earlier then end date")
                 return;
@@ -46,6 +45,11 @@ function EditVacation(): JSX.Element {
         catch (err: any) {
             notifyService.error(err);
         }
+    }
+    
+    function dateParser(date: string):string{
+        const newDate = date.split("T")
+        return newDate[0];
     }
 
     return (
@@ -77,7 +81,9 @@ function EditVacation(): JSX.Element {
                 <hr />
 
                 <label>Image: </label>
-                <input type="text" {...register("pictureName")} />
+                <input type="file" accept="image/*" {...register("image")} />
+
+                <img src={vacation?.pictureName} />
 
 
                 <button>Update</button>
@@ -95,3 +101,6 @@ export default EditVacation;
 // <input type="file" accept="image/*" {...register("image")} /> */}
 
 // {/* <img src={product?.imageUrl} /> */}
+
+// {/* <label>Image: </label> */}
+// {/* <input type="text" {...register("pictureName")} /> */}
