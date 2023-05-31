@@ -4,6 +4,8 @@ import "./VacationCardAdmin.css";
 import dataService from "../../../Services/DataService";
 import notifyService from "../../../Services/NotifyService";
 import { useEffect } from "react";
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 interface VacationCardProps {
     vacation: VacationModel
@@ -33,30 +35,28 @@ function VacationCardAdmin(props: VacationCardProps): JSX.Element {
 
     return (
         <div className="VacationCardAdmin">
-            <div>
-                <div className="card_image">
-                    <img src={props.vacation.pictureName} />
-                </div>
-                <div className="date">
-                    dates: {startDate.toDateString()} - {endtDate.toDateString()}
-                </div>
-                <div className="content">
-                    <p>dest: {props.vacation.destination}</p>
-                    <p>description: {props.vacation.description}</p>
-                </div>
-                <button>
-                    <NavLink to={"/vacations/edit/" + props.vacation.vacationId}>Edit</NavLink>
-                </button>
-                <span> | </span>
-                <button>
-                    <NavLink to="#" onClick={deleteMe}>Delete</NavLink>
-                </button>
-                <div className="priceTag">
-                    Price: {props.vacation.price}
-                </div>
-            </div>
+            <Card style={{ width: '18rem' }}>
+                <Card.Img className="card_image" variant="top" src={`${props.vacation.pictureName}`} />
+                <Card.Body>
+                    <Card.Title>{props.vacation.destination}</Card.Title>
+                    <Card.Text className="card_body">{props.vacation.description}</Card.Text>
+                </Card.Body>
+                <ListGroup className="list-group-flush">
+                    <ListGroup.Item style={{ height: '4rem' }}>{startDate.toDateString()} - {endtDate.toDateString()}</ListGroup.Item>
+                    <ListGroup.Item>Price: {props.vacation.price}</ListGroup.Item>
+                    <ListGroup.Item>
+                        <button>
+                            <NavLink to={"/vacations/edit/" + props.vacation.vacationId}>Edit</NavLink>
+                        </button>
+                        <span>|</span>
+                        <button>
+                            <NavLink to="#" onClick={deleteMe}>Delete</NavLink>
+                        </button>
+                        </ListGroup.Item>
+                </ListGroup>
+            </Card>
         </div>
     );
 }
-// "/vacations/edit/:vacationId"
+
 export default VacationCardAdmin;
