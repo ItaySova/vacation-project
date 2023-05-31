@@ -95,12 +95,3 @@ function EditVacation(): JSX.Element {
 }
 
 export default EditVacation;
-
-// for later when pictures will be implemented
-// {/* <label>Image: </label>
-// <input type="file" accept="image/*" {...register("image")} /> */}
-
-// {/* <img src={product?.imageUrl} /> */}
-
-// {/* <label>Image: </label> */}
-// {/* <input type="text" {...register("pictureName")} /> */}
