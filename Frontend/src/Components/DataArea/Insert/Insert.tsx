@@ -13,6 +13,10 @@ function Insert(): JSX.Element {
     async function send(vacation: VacationModel) {
         try {
             vacation.image = (vacation.image as unknown as FileList)[0];
+            if (vacation.endDate < vacation.startDate) {
+                alert("start date must be earlier then end date")
+                return;
+            }
             await dataService.addVacation(vacation);
             notifyService.success("vacation has been added");
             navigate("/list");
@@ -60,7 +64,3 @@ function Insert(): JSX.Element {
 }
 
 export default Insert;
-
-
-// {/* <label>Image: </label> */}
-// {/* <input type="text" {...register("pictureName")} /> */}
