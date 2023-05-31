@@ -123,10 +123,10 @@ async function addVacation(vacation: VacationModel): Promise<VacationModel> {
         vacation.pictureName = appConfig.imagesUrl + imageName;
     }
 
+    console.log(vacation.description)
     const sql = `INSERT INTO vacation_table(destination,description,startDate,endDate,price,pictureName)
-    VALUES ('${vacation.destination}', '${vacation.description}',
-            '${vacation.startDate}', '${vacation.endDate}', '${vacation.price}', '${imageName}')`
-    const result: OkPacket = await dal.execute(sql);
+    VALUES (?, ?, ?, ?, ?, ?)`
+    const result: OkPacket = await dal.execute(sql, [vacation.destination,vacation.description,vacation.startDate,vacation.endDate,vacation.price,imageName]);
     vacation.vacationId = result.insertId
 
     delete vacation.image;
@@ -151,15 +151,15 @@ async function editVacation(vacation: VacationModel): Promise<VacationModel> {
     const errors = vacation.validatePut();
     if (errors) throw new ValidationError(errors);
     const sql = `UPDATE vacation_table SET
-    destination ='${vacation.destination}',
-    description ='${vacation.description}',
-    startDate ='${vacation.startDate}',
-    endDate ='${vacation.endDate}',
-    price ='${vacation.price}',
-    pictureName ='${imageName}'
+    destination =?,
+    description =?,
+    startDate =?,
+    endDate =?,
+    price =?,
+    pictureName =?
     WHERE vacationId = '${vacation.vacationId}'`
 
-    const result: OkPacket = await dal.execute(sql);
+    const result: OkPacket = await dal.execute(sql,[vacation.destination,vacation.description,vacation.startDate,vacation.endDate,vacation.price,imageName]);
 
     if (result.affectedRows === 0) throw new ResourceNotFoundError(vacation.vacationId);
 
