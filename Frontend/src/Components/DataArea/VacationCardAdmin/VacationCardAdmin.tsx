@@ -3,7 +3,6 @@ import VacationModel from "../../../Models/VacationModel";
 import "./VacationCardAdmin.css";
 import dataService from "../../../Services/DataService";
 import notifyService from "../../../Services/NotifyService";
-import { useEffect } from "react";
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 
