@@ -36,18 +36,6 @@ async function getVacations(userId: number, options?: { page?: number, showFollo
     // remove at final edit
     let sql = `
         SELECT DISTINCT
-            V.*,
-            EXISTS(SELECT * FROM followers_table WHERE vacationId = F.vacationId AND userId = ?) AS isFollowing,
-            COUNT(F.userId) AS followersCount
-        FROM vacation_table as V LEFT JOIN followers_table as F
-        ON V.vacationId = F.vacationId
-        GROUP BY vacationId
-        ${condition}
-        ORDER BY startDate
-        `;
-
-    let sql2 = `
-        SELECT DISTINCT
             V.vacationId,
             V.destination,
             V.description,
@@ -64,22 +52,28 @@ async function getVacations(userId: number, options?: { page?: number, showFollo
         ORDER BY startDate
         `;
 
+    let queryForPages = `
+        SELECT DISTINCT
+            V.*,
+            EXISTS(SELECT * FROM followers_table WHERE vacationId = F.vacationId AND userId = ?) AS isFollowing,
+            COUNT(F.userId) AS followersCount
+        FROM vacation_table as V LEFT JOIN followers_table as F
+        ON V.vacationId = F.vacationId
+        GROUP BY vacationId
+        ${condition}
+        ORDER BY startDate
+        `;
 
     if (options?.page) {
         sql += `
             LIMIT 9
             OFFSET ${(options.page - 1) * 9}
         `;
-        sql2 += `
-            LIMIT 9
-            OFFSET ${(options.page - 1) * 9}
-        `;
     }
-    let vacations = await dal.execute(sql2, [userId]);
+    let vacations = await dal.execute(sql, [userId]);
 
-    const numOfPagesQuery = `SELECT COUNT(vacationId) AS numOfVacations FROM vacation_table`;
-    const numOfPagesRes = await dal.execute(numOfPagesQuery)
-    const numOfPages = Math.ceil(numOfPagesRes[0].numOfVacations / 9)
+    const test = await dal.execute(queryForPages, [userId])
+    const numOfPages = Math.ceil(test.length / 9)
 
 
     return {
@@ -126,7 +120,7 @@ async function addVacation(vacation: VacationModel): Promise<VacationModel> {
     console.log(vacation.description)
     const sql = `INSERT INTO vacation_table(destination,description,startDate,endDate,price,pictureName)
     VALUES (?, ?, ?, ?, ?, ?)`
-    const result: OkPacket = await dal.execute(sql, [vacation.destination,vacation.description,vacation.startDate,vacation.endDate,vacation.price,imageName]);
+    const result: OkPacket = await dal.execute(sql, [vacation.destination, vacation.description, vacation.startDate, vacation.endDate, vacation.price, imageName]);
     vacation.vacationId = result.insertId
 
     delete vacation.image;
@@ -159,7 +153,7 @@ async function editVacation(vacation: VacationModel): Promise<VacationModel> {
     pictureName =?
     WHERE vacationId = '${vacation.vacationId}'`
 
-    const result: OkPacket = await dal.execute(sql,[vacation.destination,vacation.description,vacation.startDate,vacation.endDate,vacation.price,imageName]);
+    const result: OkPacket = await dal.execute(sql, [vacation.destination, vacation.description, vacation.startDate, vacation.endDate, vacation.price, imageName]);
 
     if (result.affectedRows === 0) throw new ResourceNotFoundError(vacation.vacationId);
 
