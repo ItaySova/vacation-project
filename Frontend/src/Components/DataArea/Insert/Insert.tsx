@@ -2,12 +2,12 @@ import { useForm } from "react-hook-form";
 import VacationModel from "../../../Models/VacationModel";
 import "./Insert.css";
 import dataService from "../../../Services/DataService";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import notifyService from "../../../Services/NotifyService";
 
 function Insert(): JSX.Element {
 
-    const { register, handleSubmit, setValue } = useForm<VacationModel>();
+    const { register, handleSubmit } = useForm<VacationModel>();
     const navigate = useNavigate();
 
     async function send(vacation: VacationModel) {
