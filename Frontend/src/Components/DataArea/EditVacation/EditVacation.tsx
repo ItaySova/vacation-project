@@ -53,8 +53,8 @@ function EditVacation(): JSX.Element {
     }
 
     return (
-        <div className="EditVacation">
-            <h2>Edit Product</h2>
+        <div className="EditVacation Box">
+            <h2>Edit Vacation</h2>
 
             <form onSubmit={handleSubmit(send)}>
 
@@ -81,11 +81,11 @@ function EditVacation(): JSX.Element {
                 <hr />
 
                 <label>Image: </label>
-                <input type="file" accept="image/*" {...register("image")} />
-
+                <hr />
                 <img src={vacation?.pictureName} />
-
-
+                <hr />
+                <input type="file" accept="image/*" {...register("image")} />
+                <hr />
                 <button>Update</button>
 
             </form>
