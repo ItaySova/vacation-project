@@ -32,24 +32,23 @@ function Menu(): JSX.Element {
                 </>
             }
             {user &&
-            <>
-            {user.roleId === 1 &&
-            <>
-			<NavLink to="/insert">Add Vacation</NavLink>
-            <span> | </span>
-            <NavLink to="/vacationsReport">Vacations report</NavLink>
-            <span> | </span>
-			<NavLink to="/list">Vacations List</NavLink>
-            <span> | </span>
-            </>
-            }
-            {user.roleId === 2 &&
-            <>
-            <NavLink to="/vacations">Vacations list</NavLink>
-            <span> | </span>
-            </>
-            }
-            </>}
+                <>
+                    {user.roleId === 1 &&
+                        <>
+                            <NavLink to="/insert">Add Vacation</NavLink>
+                            <span> | </span>
+                            <NavLink to="/vacationsReport">Vacations report</NavLink>
+                            <span> | </span>
+                            <NavLink to="/list">Vacations List</NavLink>
+                            <span> | </span>
+                        </>
+                    }
+                    {user.roleId === 2 &&
+                        <>
+                            <NavLink to="/vacations">Vacations list</NavLink>
+                        </>
+                    }
+                </>}
         </div>
     );
 }
