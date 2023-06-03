@@ -27,7 +27,7 @@ function Insert(): JSX.Element {
     }
 
     return (
-        <div className="Insert">
+        <div className="Insert Box">
             <h2>add vacation</h2>
 
             <form onSubmit={handleSubmit(send)}>
@@ -36,7 +36,7 @@ function Insert(): JSX.Element {
                 <input type="text" {...register("destination")} required minLength={2} maxLength={100} />
                 <hr />
 
-                <label>description:</label>
+                <label className="textareaLabel">description:</label>
                 <textarea {...register("description")} required minLength={2} maxLength={1000} rows={5}></textarea>
                 <hr />
 
@@ -53,8 +53,9 @@ function Insert(): JSX.Element {
                 <hr />
 
                 <label>Image: </label>
+                <hr />
                 <input type="file" accept="image/*" {...register("image")} />
-
+                <hr />
 
                 <button>add vacation</button>
 
