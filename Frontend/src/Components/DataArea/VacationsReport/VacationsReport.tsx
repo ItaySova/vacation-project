@@ -7,12 +7,17 @@ import ReportChart from "../ReportChart/ReportChart";
 import { CSVLink } from "react-csv";
 import authService from "../../../Services/AuthService";
 import { useNavigate } from "react-router-dom";
+import { authStore } from "../../../Redux/AuthState";
 
 function VacationsReport(): JSX.Element {
     const [vacations, setVacations] = useState<VacationModel[]>([]);
     const navigate = useNavigate();
     // Get all products once:
     useEffect(() => {
+        const user = authStore.getState().user;
+        if (!user) {
+            navigate("/login");
+        }
         dataService.getAllVacations()
         .then(response => {
             console.log(response.vacations)
