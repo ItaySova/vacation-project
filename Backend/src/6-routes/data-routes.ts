@@ -7,19 +7,8 @@ import cyber from "../4-utils/cyber";
 import verifyAdmin from "../3-middleware/verify-admin";
 import imageHandler from "../4-utils/image-handler";
 
-// todo - update the permissions
 
 const router = express.Router();
-
-// router.get("/vacations", async (request: Request, response: Response, next: NextFunction) => {
-//     try {
-//         const vacations = await dataService.getAllVacations()
-//         response.json(vacations)
-//     }
-//     catch(err: any) {
-//         next(err);
-//     }
-// });
 
 // get all the vacations for a single user
 router.get("/vacations", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
@@ -92,7 +81,6 @@ router.delete("/vacations/:id([0-9]+)", verifyAdmin, async (request: Request, re
     try {
         const id = +request.params.id;
         await dataService.deleteVacation(id)
-        // await dataService.deleteVacationsFollows(id)
         response.sendStatus(204);
     }
     catch (err: any) {
