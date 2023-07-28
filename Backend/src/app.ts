@@ -18,3 +18,7 @@ server.use(routeNotFound);
 server.use(catchAll);
 
 server.listen(appConfig.port, () => console.log("Listening on http://localhost:" + appConfig.port));
+
+export default {
+    server
+};
