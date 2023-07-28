@@ -2,8 +2,6 @@ import { describe, it } from "mocha";
 import { expect } from "chai";
 import app from "../src/app";
 import supertest from "supertest";
-import CredentialsModel from "../src/2-models/credentials-model";
-import authService from "../src/5-services/auth-service";
 
 
 describe("testing vacations routes", ()=>{
