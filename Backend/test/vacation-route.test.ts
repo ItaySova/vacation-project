@@ -7,10 +7,14 @@ import authService from "../src/5-services/auth-service";
 
 
 describe("testing vacations routes", ()=>{
-    it("should return array of vacations", async ()=>{
-        const body = { email: 'admin@gmail.com', password: 'hardpass' }
-        const credentials = new CredentialsModel(body as any);
-        const token = await authService.login(credentials);
+    let token = null
+
+    before(async () => {
+        const response = await supertest(app.server).post("/api/login").send({ email: 'admin@gmail.com', password: 'hardpass' })
+        token = response.body;
+      });
+
+    it("should return array of vacations", async () => {
         const response = await supertest(app.server).get("/api/vacations").set('Authorization', 'Bearer ' + token)
         const vacations = JSON.parse(response.text);
         expect(vacations.vacations.length).to.be.greaterThanOrEqual(1);
