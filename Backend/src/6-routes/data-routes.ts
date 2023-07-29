@@ -126,14 +126,5 @@ router.get("/vacations/images/:imageName", async (request: Request, response: Re
     }
 });
 
-router.get("/users", async (request: Request, response: Response, next: NextFunction) => {
-    try {
-        const users = await dataService.getAllUsers()
-        response.json(users)
-    }
-    catch (err: any) {
-        next(err);
-    }
-});
 
 export default router;
