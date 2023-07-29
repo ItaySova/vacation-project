@@ -231,7 +231,6 @@ async function getVacationPictureName(id: number): Promise<string> {
 
 export default {
     getAllVacations,
-    getAllUsers,
     getVacations,
     getSingleVacation,
     getVacationsReport,
