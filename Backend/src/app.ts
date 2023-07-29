@@ -9,7 +9,7 @@ import appConfig from "./4-utils/app-config";
 
 const server = express();
 
-server.use(cors());
+server.use(cors({ origin: "http://localhost:3000" })); 
 server.use(express.json());
 server.use(expressFileUpload());
 server.use("/api", dataRoutes);
