@@ -51,18 +51,7 @@ async function getVacations(userId: number, options?: { page?: number, showFollo
         ${condition}
         ORDER BY startDate
         `;
-
-    let queryForPages = `
-        SELECT DISTINCT
-            V.*,
-            EXISTS(SELECT * FROM followers_table WHERE vacationId = F.vacationId AND userId = ?) AS isFollowing,
-            COUNT(F.userId) AS followersCount
-        FROM vacation_table as V LEFT JOIN followers_table as F
-        ON V.vacationId = F.vacationId
-        GROUP BY vacationId
-        ${condition}
-        ORDER BY startDate
-        `;
+    const test = await dal.execute(sql, [userId])
 
     if (options?.page) {
         sql += `
@@ -72,7 +61,7 @@ async function getVacations(userId: number, options?: { page?: number, showFollo
     }
     let vacations = await dal.execute(sql, [userId]);
 
-    const test = await dal.execute(queryForPages, [userId])
+    
     const numOfPages = Math.ceil(test.length / 9)
 
 
