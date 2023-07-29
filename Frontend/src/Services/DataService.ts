@@ -77,7 +77,6 @@ class DataService {
         }
 
         // vacation.pictureName = appConfig.imagesUrl + vacation.pictureName;
-        // console.log(vacation.pictureName);
         // Return:
         return vacation;
     }
