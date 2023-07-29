@@ -24,4 +24,15 @@ router.get("/users/:userId",  async (request: Request, response: Response, next:
     }
 })
 
+router.delete("/users/:userId",  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const userId = +request.params.userId
+        await usersService.deleteUser(userId)
+        response.sendStatus(204)
+    }
+    catch (err: any) {
+        next(err);
+    }
+})
+
 export default router;
