@@ -10,7 +10,13 @@ async function getAllUsers(): Promise<UserModel[]> {
 
 }
 
+async function getOneUser(id:number): Promise<UserModel>  {
+    const sql = "SELECT * from users_table where userId = ?";
+    const user = await dal.execute(sql, [id]);
+    return user;
+}
 
 export default {
-    getAllUsers
+    getAllUsers,
+    getOneUser
 };
