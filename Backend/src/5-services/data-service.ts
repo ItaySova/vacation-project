@@ -33,7 +33,6 @@ async function getVacations(userId: number, options?: { page?: number, showFollo
     if (options.showActive) {
         condition += `HAVING startDate <= CURRENT_DATE() AND endDate >= CURRENT_DATE()`
     }
-    // remove at final edit
     let sql = `
         SELECT DISTINCT
             V.vacationId,
@@ -51,7 +50,7 @@ async function getVacations(userId: number, options?: { page?: number, showFollo
         ${condition}
         ORDER BY startDate
         `;
-    const test = await dal.execute(sql, [userId])
+    const totalVacations = await dal.execute(sql, [userId])
 
     if (options?.page) {
         sql += `
@@ -60,9 +59,7 @@ async function getVacations(userId: number, options?: { page?: number, showFollo
         `;
     }
     let vacations = await dal.execute(sql, [userId]);
-
-    
-    const numOfPages = Math.ceil(test.length / 9)
+    const numOfPages = Math.ceil(totalVacations.length / 9)
 
 
     return {
