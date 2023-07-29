@@ -25,5 +25,5 @@ function Routing(): JSX.Element {
         </Routes>
     );
 }
-// <NavLink to="/vacationsReport">Vacations report</NavLink> /products/edit/:prodId
+
 export default Routing;
