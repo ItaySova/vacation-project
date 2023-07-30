@@ -50,5 +50,6 @@ async function deleteUser(id:number): Promise<void>  {
 export default {
     getAllUsers,
     getOneUser,
+    editUser,
     deleteUser
 };
