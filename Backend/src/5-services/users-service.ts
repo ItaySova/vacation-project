@@ -1,7 +1,8 @@
 import { OkPacket } from "mysql2";
-import { ResourceNotFoundError } from "../2-models/client-errors";
+import { ResourceNotFoundError, ValidationError } from "../2-models/client-errors";
 import UserModel from "../2-models/user-model";
 import dal from "../4-utils/dal";
+import { use } from "chai";
 
 
 
@@ -17,6 +18,26 @@ async function getOneUser(id:number): Promise<UserModel>  {
     const user = await dal.execute(sql, [id]);
     return user;
 }
+
+async function editUser(user:UserModel): Promise<UserModel>  {
+    
+    delete user.userId
+    // validations
+    const errors = user.validateRegister() // update
+    if (errors) throw new ValidationError(errors);
+    const sql = `UPDATE users_table SET
+    firstName =?,
+    lastName =?,
+    email =?,
+    password =?,
+    roleId =?,
+    WHERE userId = ?`
+    const result: OkPacket = await dal.execute(sql, [user.firstName, user.lastName, user.email, user.password, user.roleId, user.userId]);
+    if (result.affectedRows === 0) throw new ResourceNotFoundError(user.userId);
+
+    return user;
+}
+
 
 async function deleteUser(id:number): Promise<void>  {
     const sql = `DELETE FROM users_table WHERE userId = ?`;
