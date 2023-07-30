@@ -6,7 +6,9 @@ import supertest from "supertest";
 
 describe("testing users routes", ()=>{
     it("should register existing admin", async ()=>{
-        // todo - add test for get
+        const response = await supertest(app.server).get("/api/users");
+        const users = response.body;
+        expect(users.length).to.be.greaterThanOrEqual(2);
     });
 
     it("should sign in", async ()=>{
