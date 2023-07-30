@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import usersService from "../5-services/users-service";
+import UserModel from "../2-models/user-model";
 
 const router = express.Router();
 
@@ -18,6 +19,18 @@ router.get("/users/:userId",  async (request: Request, response: Response, next:
         const userId = +request.params.userId
         const users = await usersService.getOneUser(userId)
         response.json(users)
+    }
+    catch (err: any) {
+        next(err);
+    }
+})
+
+router.put("/users/:userId",  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const userId = +request.params.userId
+        const user = new UserModel(request.body)
+        const updatedUser = await usersService.editUser(user)
+        response.json(updatedUser)
     }
     catch (err: any) {
         next(err);
