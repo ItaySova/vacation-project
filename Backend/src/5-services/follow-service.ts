@@ -22,3 +22,10 @@ async function deleteVacationsFollows(vacationId: number): Promise<void> {
     const sql = `DELETE FROM followers_table WHERE vacationId=${vacationId}`;
     const result: OkPacket = await dal.execute(sql);
 }
+
+
+export default {
+    addFollow,
+    deleteFollow,
+    deleteVacationsFollows
+};
