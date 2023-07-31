@@ -17,8 +17,13 @@ describe("testing users routes", ()=>{
         expect(user).to.not.be.empty;
     });
 
-    it("should sign in", async ()=>{
-        // todo - add test for edit user
+    it("test for edit user", async ()=>{
+        const user = { firstName: 'Marge', lastName: 'Simpson', email: 'Marge@gmail.com', password:'hardpass', roleId: 2};
+        const response = await supertest(app.server).put("/api/users/4").send(user);
+        const updatedUser = response.body;
+        expect(updatedUser).to.haveOwnProperty("userId");
+        expect(updatedUser).to.haveOwnProperty("roleId");
+        expect(updatedUser).to.contain(user);
     });
 
     it("should sign in", async ()=>{
