@@ -21,17 +21,16 @@ async function getOneUser(id:number): Promise<UserModel>  {
 
 async function editUser(user:UserModel): Promise<UserModel>  {
     
-    delete user.userId
     // validations
-    const errors = user.validateRegister() // update
+    const errors = user.validateEdit()
     if (errors) throw new ValidationError(errors);
     const sql = `UPDATE users_table SET
     firstName =?,
     lastName =?,
     email =?,
     password =?,
-    roleId =?,
-    WHERE userId = ?`
+    roleId =?
+    WHERE userId =?`
     const result: OkPacket = await dal.execute(sql, [user.firstName, user.lastName, user.email, user.password, user.roleId, user.userId]);
     if (result.affectedRows === 0) throw new ResourceNotFoundError(user.userId);
 
