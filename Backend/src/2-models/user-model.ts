@@ -24,8 +24,22 @@ class UserModel {
         return result.error?.message;
     }
 
+    public validateEdit(){
+        const result = UserModel.editValidationSchema.validate(this);
+        return result.error?.message;
+    }
+
     private static registerValidationSchema = Joi.object({
         userId: Joi.forbidden(),
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        email:Joi.string().required().email(),
+        password: Joi.string().required().min(4),
+        roleId: Joi.number().required().integer().min(RoleModel.Admin).max(RoleModel.User)
+    })
+
+    private static editValidationSchema = Joi.object({
+        userId: Joi.number().required(),
         firstName: Joi.string().required(),
         lastName: Joi.string().required(),
         email:Joi.string().required().email(),
