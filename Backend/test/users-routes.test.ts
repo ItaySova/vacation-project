@@ -26,8 +26,8 @@ describe("testing users routes", ()=>{
         expect(updatedUser).to.contain(user);
     });
 
-    it("should sign in", async ()=>{
-        // add test to remove user
-    });
+    // it("should sign in", async ()=>{
+    //     // add test to remove user
+    // });
 });
 
