@@ -5,6 +5,9 @@ import dal from "../4-utils/dal";
 import { use } from "chai";
 
 
+async function findUser(email:string)Promise<UserModel> {
+    //
+}
 
 async function getAllUsers(): Promise<UserModel[]> {
     const sql = "SELECT * FROM users_table";
@@ -50,5 +53,6 @@ export default {
     getAllUsers,
     getOneUser,
     editUser,
-    deleteUser
+    deleteUser,
+    findUser
 };
