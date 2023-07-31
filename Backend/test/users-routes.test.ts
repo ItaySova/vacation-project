@@ -11,8 +11,10 @@ describe("testing users routes", ()=>{
         expect(users.length).to.be.greaterThanOrEqual(2);
     });
 
-    it("should sign in", async ()=>{
-        // todo -add test for get one user
+    it("should get only 1 user", async ()=>{
+        const response = await supertest(app.server).get("/api/users/1");
+        const user = response.body;
+        expect(user).to.not.be.empty;
     });
 
     it("should sign in", async ()=>{
