@@ -13,13 +13,6 @@ async function getAllVacations(): Promise<VacationModel[]> {
 
 }
 
-async function getAllUsers(): Promise<UserModel[]> {
-    const sql = "SELECT * FROM users_table";
-    const users = await dal.execute(sql);
-    return users;
-
-}
-
 
 // will be used later with authentication
 async function getVacations(userId: number, options?: { page?: number, showFollowed?: boolean, showFuture?: boolean, showActive?: boolean }): Promise<{ vacations: VacationModel[], numOfPages: number }> {
