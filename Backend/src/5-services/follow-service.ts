@@ -24,7 +24,7 @@ async function deleteVacationsFollows(vacationId: number): Promise<void> {
 }
 
 // in case the user is deleted its followers will be deleted too
-async function deleteUsersFOllow(userId:number) {
+async function deleteUsersFOllow(userId:number): Promise<void>  {
     const sql = `DELETE FROM followers_table WHERE userId = ?`
     const result:OkPacket = await dal.execute(sql,[userId])
 }
