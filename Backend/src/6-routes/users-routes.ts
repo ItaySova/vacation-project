@@ -27,7 +27,7 @@ router.get("/users/:userId",  async (request: Request, response: Response, next:
 
 router.put("/users/:userId",  async (request: Request, response: Response, next: NextFunction) => {
     try {
-        const userId = +request.params.userId
+        request.body.userId = +request.params.userId
         const user = new UserModel(request.body)
         const updatedUser = await usersService.editUser(user)
         response.json(updatedUser)
