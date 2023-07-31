@@ -17,7 +17,7 @@ describe("testing users routes", ()=>{
         expect(user).to.not.be.empty;
     });
 
-    it("test for edit user", async ()=>{
+    it("test for edit user", async ()=>{ // todo - update the test
         const user = { firstName: 'Marge', lastName: 'Simpson', email: 'Marge@gmail.com', password:'hardpass', roleId: 2};
         const response = await supertest(app.server).put("/api/users/4").send(user);
         const updatedUser = response.body;
@@ -26,8 +26,9 @@ describe("testing users routes", ()=>{
         expect(updatedUser).to.contain(user);
     });
 
-    // it("should sign in", async ()=>{
-    //     // add test to remove user
-    // });
+    // add the delete test after the register test 
+    it("should delete test user", async ()=>{
+        // add test to remove user
+    });
 });
 
