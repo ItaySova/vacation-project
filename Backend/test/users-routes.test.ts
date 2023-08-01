@@ -1,5 +1,5 @@
 import { describe, it } from "mocha";
-import { expect } from "chai";
+import { expect, use } from "chai";
 import app from "../src/app";
 import supertest from "supertest";
 
@@ -29,6 +29,11 @@ describe("testing users routes", ()=>{
     // add the delete test after the register test 
     it("should delete test user", async ()=>{
         // add test to remove user
+        const response = await supertest(app.server).get("/api/users/test@gmail.com");
+        const user = response.body;
+        const delResponse = await supertest(app.server).delete("/users/" + user.userId)
+        expect(delResponse).to.haveOwnProperty("status", 204);
+
     });
 });
 
