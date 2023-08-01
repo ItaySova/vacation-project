@@ -6,7 +6,7 @@ import { use } from "chai";
 
 
 async function getUserByEmail(email:string): Promise<UserModel> {
-    const sql = "SELECT * from users_table where email = ?";
+    const sql = `SELECT * FROM users_table WHERE email =?`;
     const user = await dal.execute(sql, [email]);
     return user;
 }
