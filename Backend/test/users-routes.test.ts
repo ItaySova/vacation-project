@@ -26,12 +26,18 @@ describe("testing users routes", ()=>{
         expect(updatedUser).to.contain(user);
     });
 
-    // add the delete test after the register test 
+    it("should get only 1 user by email", async ()=>{
+        const response = await supertest(app.server).get("/api/users/email/test@gmail.com");
+        const user = response.body[0];
+        expect(user).to.not.be.empty;
+        expect(user).to.haveOwnProperty("userId");
+    });
+
     it("should delete test user", async ()=>{
         // add test to remove user
-        const response = await supertest(app.server).get("/api/users/test@gmail.com");
-        const user = response.body;
-        const delResponse = await supertest(app.server).delete("/users/" + user.userId)
+        const response = await supertest(app.server).get("/api/users/email/test@gmail.com");
+        const user = response.body[0];
+        const delResponse = await supertest(app.server).delete(`/api/users/${user.userId}`)
         expect(delResponse).to.haveOwnProperty("status", 204);
 
     });
