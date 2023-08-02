@@ -89,30 +89,30 @@ router.delete("/vacations/:id([0-9]+)", verifyAdmin, async (request: Request, re
 });
 
 
-router.post("/follower/:vacationId([0-9]+)", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
-    try {
-        const user = await cyber.decodeUser(request)
-        const vacationId = +request.params.vacationId
-        const addedFollower = await dataService.addFollow(user.userId, vacationId)
-        response.status(201).json(addedFollower)
-    }
-    catch (err: any) {
-        next(err);
-    }
-});
+// router.post("/follower/:vacationId([0-9]+)", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
+//     try {
+//         const user = await cyber.decodeUser(request)
+//         const vacationId = +request.params.vacationId
+//         const addedFollower = await dataService.addFollow(user.userId, vacationId)
+//         response.status(201).json(addedFollower)
+//     }
+//     catch (err: any) {
+//         next(err);
+//     }
+// });
 
 
-router.delete("/follower/:vacationId([0-9]+)", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
-    try {
-        const user = await cyber.decodeUser(request)
-        const vacationId = +request.params.vacationId
-        await dataService.deleteFollow(user.userId, vacationId)
-        response.sendStatus(204)
-    }
-    catch (err: any) {
-        next(err);
-    }
-});
+// router.delete("/follower/:vacationId([0-9]+)", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
+//     try {
+//         const user = await cyber.decodeUser(request)
+//         const vacationId = +request.params.vacationId
+//         await dataService.deleteFollow(user.userId, vacationId)
+//         response.sendStatus(204)
+//     }
+//     catch (err: any) {
+//         next(err);
+//     }
+// });
 
 // GET the image
 router.get("/vacations/images/:imageName", async (request: Request, response: Response, next: NextFunction) => {
