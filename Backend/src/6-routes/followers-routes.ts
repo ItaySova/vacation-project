@@ -29,3 +29,5 @@ router.delete("/follower/:vacationId([0-9]+)", verifyLoggedIn, async (request: R
         next(err);
     }
 });
+
+export default router;
