@@ -16,3 +16,16 @@ router.post("/follower/:vacationId([0-9]+)", verifyLoggedIn, async (request: Req
         next(err);
     }
 });
+
+
+router.delete("/follower/:vacationId([0-9]+)", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        const user = await cyber.decodeUser(request)
+        const vacationId = +request.params.vacationId
+        await followService.deleteFollow(user.userId, vacationId)
+        response.sendStatus(204)
+    }
+    catch (err: any) {
+        next(err);
+    }
+});
