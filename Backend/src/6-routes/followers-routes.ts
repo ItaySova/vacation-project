@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import verifyLoggedIn from "../3-middleware/verify-logged-in";
 import cyber from "../4-utils/cyber";
 import followService from "../5-services/follow-service";
+import verifyAdmin from "../3-middleware/verify-admin";
 
 const router = express.Router();
 
@@ -11,6 +12,16 @@ router.post("/follower/:vacationId([0-9]+)", verifyLoggedIn, async (request: Req
         const vacationId = +request.params.vacationId
         const addedFollower = await followService.addFollow(user.userId, vacationId)
         response.status(201).json(addedFollower)
+    }
+    catch (err: any) {
+        next(err);
+    }
+});
+
+router.post("/follower/reset)", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        await followService.resetFollowerTable()
+        response.sendStatus(204)
     }
     catch (err: any) {
         next(err);
