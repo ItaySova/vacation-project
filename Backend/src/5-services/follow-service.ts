@@ -30,7 +30,8 @@ async function deleteUsersFollow(userId:number): Promise<void>  {
 }
 
 async function resetFollowerTable(): Promise<void> {
-    
+    const sql = `DELETE FROM followers_table`
+    const result:OkPacket = await dal.execute(sql)
 }
 
 
