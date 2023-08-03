@@ -39,5 +39,6 @@ export default {
     addFollow,
     deleteFollow,
     deleteVacationsFollows,
-    deleteUsersFollow
+    deleteUsersFollow,
+    resetFollowerTable
 };
