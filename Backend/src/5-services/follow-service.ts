@@ -29,6 +29,10 @@ async function deleteUsersFollow(userId:number): Promise<void>  {
     const result:OkPacket = await dal.execute(sql,[userId])
 }
 
+async function resetFollowerTable(): Promise<void> {
+    
+}
+
 
 export default {
     addFollow,
