@@ -44,5 +44,6 @@ export default {
     deleteFollow,
     deleteVacationsFollows,
     deleteUsersFollow,
-    resetFollowerTable
+    resetFollowerTable,
+    cleanFollowersTable
 };
