@@ -28,6 +28,16 @@ router.post("/follower/reset)", verifyAdmin, async (request: Request, response: 
     }
 });
 
+router.post("/follower/clear)", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
+    try {
+        await followService.cleanFollowersTable()
+        response.sendStatus(204)
+    }
+    catch (err: any) {
+        next(err);
+    }
+});
+
 
 router.delete("/follower/:vacationId([0-9]+)", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
     try {
