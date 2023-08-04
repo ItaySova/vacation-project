@@ -34,6 +34,10 @@ async function resetFollowerTable(): Promise<void> {
     const result:OkPacket = await dal.execute(sql)
 }
 
+// function to remove follows between removed vacations or users
+async function cleanFollowersTable(): Promise<void>{
+    //add
+}
 
 export default {
     addFollow,
