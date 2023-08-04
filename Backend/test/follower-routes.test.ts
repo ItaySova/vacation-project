@@ -13,8 +13,11 @@ describe("testing followers routes", ()=>{
       });
 
       it("should add a follow to a vacation", async ()=>{
-        //
+        // add later
     });
 
+    it("should remove the added follow from last test", async ()=>{
+        // add later
+    });
 
 });
