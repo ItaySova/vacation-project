@@ -11,4 +11,10 @@ describe("testing followers routes", ()=>{
         const response = await supertest(app.server).post("/api/login").send({ email: 'admin@gmail.com', password: 'hardpass' })
         token = response.body;
       });
+
+      it("should add a follow to a vacation", async ()=>{
+        //
+    });
+
+
 });
