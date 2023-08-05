@@ -3,7 +3,6 @@ import { createLogger, transports, format} from "winston";
 const logger = createLogger({
     level: "info",
     transports: [
-        new transports.Console(),
         new transports.File({ filename: "./logs/logger.log" })
     ],
     format: format.combine(
