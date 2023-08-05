@@ -18,7 +18,7 @@ router.post("/follower/:vacationId([0-9]+)", verifyLoggedIn, async (request: Req
     }
 });
 
-router.post("/follower/reset)", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
+router.post("/follower/reset", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
     try {
         await followService.resetFollowerTable()
         response.sendStatus(204)
@@ -28,7 +28,7 @@ router.post("/follower/reset)", verifyAdmin, async (request: Request, response: 
     }
 });
 
-router.post("/follower/clear)", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
+router.post("/follower/clear", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
     try {
         await followService.cleanFollowersTable()
         response.sendStatus(204)
