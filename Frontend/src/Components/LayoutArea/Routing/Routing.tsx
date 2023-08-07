@@ -8,6 +8,7 @@ import Register from "../../AuthArea/Register/Register";
 import Vacations from "../../DataArea/vacations/vacations";
 import VacationsReport from "../../DataArea/VacationsReport/VacationsReport";
 import EditVacation from "../../DataArea/EditVacation/EditVacation";
+import UsersTable from "../../DataArea/UsersTable/UsersTable";
 
 function Routing(): JSX.Element {
     return (
@@ -20,6 +21,7 @@ function Routing(): JSX.Element {
             <Route path="/vacations" element={<Vacations />} />
             <Route path="/vacations/edit/:vacationId" element={<EditVacation />} />
             <Route path="/vacationsReport" element={<VacationsReport />} />
+            <Route path="/users" element={<UsersTable />} />
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="*" element={<PageNotFound />} />
         </Routes>
