@@ -41,6 +41,7 @@ function Menu(): JSX.Element {
                             <span> | </span>
                             <NavLink to="/list">Vacations List</NavLink>
                             <span> | </span>
+                            <NavLink to="/Users">Users List</NavLink>
                         </>
                     }
                     {user.roleId === 2 &&
