@@ -23,7 +23,7 @@ function Routing(): JSX.Element {
             <Route path="/vacations/edit/:vacationId" element={<EditVacation />} />
             <Route path="/vacationsReport" element={<VacationsReport />} />
             <Route path="/users" element={<UsersTable />} />
-            <Route path="/users/edit" element={<EditUser />} />
+            <Route path="/users/edit/:userId" element={<EditUser />} />
             <Route path="/" element={<Navigate to="/home" />} />
             <Route path="*" element={<PageNotFound />} />
         </Routes>
