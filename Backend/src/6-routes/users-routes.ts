@@ -1,10 +1,11 @@
 import express, { Request, Response, NextFunction } from "express";
 import usersService from "../5-services/users-service";
 import UserModel from "../2-models/user-model";
+import verifyAdmin from "../3-middleware/verify-admin";
 
 const router = express.Router();
 
-router.get("/users", async (request: Request, response: Response, next: NextFunction) => {
+router.get("/users", verifyAdmin, async (request: Request, response: Response, next: NextFunction) => {
     try {
         const users = await usersService.getAllUsers()
         response.json(users)
