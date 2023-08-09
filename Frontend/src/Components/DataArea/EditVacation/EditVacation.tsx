@@ -18,7 +18,6 @@ function EditVacation(): JSX.Element {
         const id = +params.vacationId;
         dataService.getOneVacation(id)
             .then(responseVacation => {
-                console.log(responseVacation)
                 const newStart = dateParser(responseVacation.startDate as any);
                 const endDate = dateParser(responseVacation.endDate as any);
                 setValue("vacationId", responseVacation.vacationId);
