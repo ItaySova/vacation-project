@@ -15,6 +15,10 @@ class UserService {
         let user = response.data;
         return user;
     }
+
+    public async editUser(user:UserModel):Promise<void>{
+        //
+    }
 }
 
 
