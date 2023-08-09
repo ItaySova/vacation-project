@@ -160,18 +160,6 @@ async function deleteVacation(id: number): Promise<void> {
 
 }
 
-
-async function addFollow(userId: number, vacationId: number): Promise<number[]> {
-    const sql = `INSERT INTO followers_table VALUES(${userId},${vacationId})`;
-    const result: OkPacket = await dal.execute(sql);
-    // return result.affectedRows;
-    return [
-        userId,
-        vacationId
-    ];
-}
-
-
 async function deleteFollow(userId: number, vacationId: number): Promise<void> {
     const sql = `DELETE FROM followers_table WHERE userId=${userId} AND vacationId=${vacationId}`;
     const result: OkPacket = await dal.execute(sql);
@@ -229,7 +217,6 @@ export default {
     addVacation,
     editVacation,
     deleteVacation,
-    addFollow,
     deleteFollow,
     deleteVacationsFollows
 };
