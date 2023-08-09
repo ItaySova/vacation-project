@@ -29,9 +29,21 @@ function EditUser(): JSX.Element {
         })
         .catch(err => notifyService.error(err))
     },[])
+
+    async function send(user: UserModel) {
+        try {
+            await userService.editUser(user);
+            notifyService.success("user has been updated");
+            navigate("/users");
+        }
+        catch (err: any) {
+            notifyService.error(err);
+        }
+    }
+
     return (
-        <div className="EditUser">
-			edit user form
+        <div className="EditUser Box">
+			<h2>edit user</h2>
         </div>
     );
 }
