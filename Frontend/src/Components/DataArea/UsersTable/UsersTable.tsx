@@ -29,6 +29,18 @@ function UsersTable(): JSX.Element {
 
     }, [])
 
+    async function deleteMe(userId: number) {
+        try {
+            const ok = window.confirm("Are you sure?");
+            if (!ok) return;
+            await userService.deleteUser(userId);
+            notifyService.success("user has been deleted");
+        }
+        catch (err: any) {
+            notifyService.error(err);
+        }
+    }
+
     return (
         <div className="UsersTable">
             <h1>Users table</h1>
@@ -49,7 +61,9 @@ function UsersTable(): JSX.Element {
                             <NavLink to={"/users/edit/" + user.userId}>Edit</NavLink>
                         </button>
                         </td>
-                    <td>remove</td>
+                    <td><button>
+                            <NavLink to="#" onClick={()=> {deleteMe(user.userId)}}>Delete</NavLink>
+                        </button></td>
                     </tr>
                 )}
                 
