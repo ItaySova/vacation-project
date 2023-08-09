@@ -57,6 +57,8 @@ function EditUser(): JSX.Element {
                 <hr />
                 <label>password: </label>
                 <input type="password" {...register("password")} required minLength={2} maxLength={100} />
+                <hr />
+                <button>Update</button>
             </form>
         </div>
     );
