@@ -21,7 +21,7 @@ async function getAllUsers(): Promise<UserModel[]> {
 async function getOneUser(id:number): Promise<UserModel>  {
     const sql = "SELECT * from users_table where userId = ?";
     const user = await dal.execute(sql, [id]);
-    return user;
+    return user[0];
 }
 
 async function editUser(user:UserModel): Promise<UserModel>  {
