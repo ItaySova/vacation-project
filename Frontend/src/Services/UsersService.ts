@@ -3,7 +3,7 @@ import axios from "axios";
 import appConfig from "../Utils/AppConfig";
 
 
-class UserSevice {
+class UserService {
     public async getAllUsers():Promise<UserModel[]> {
         const response = await axios.get<UserModel[]>(appConfig.userUrl);
         let users = response.data;
@@ -13,6 +13,6 @@ class UserSevice {
 
 
 
-const dataService = new UserSevice();
+const userService = new UserService();
 
-export default dataService;
+export default userService;
