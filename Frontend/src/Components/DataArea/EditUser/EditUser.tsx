@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import userService from "../../../Services/UsersService";
 import notifyService from "../../../Services/NotifyService";
+import RoleModel from "../../../Models/RoleModel";
 
 
 function EditUser(): JSX.Element {
@@ -57,6 +58,13 @@ function EditUser(): JSX.Element {
                 <hr />
                 <label>password: </label>
                 <input type="password" {...register("password")} required minLength={2} maxLength={100} />
+                <hr />
+                <label>role: </label>
+                <select defaultValue="" {...register("roleId")} required>
+                    <option disabled value="">Select role...</option>
+                    <option key={RoleModel.Admin} value={RoleModel.Admin}>Admin</option>
+                    <option key={RoleModel.User} value={RoleModel.User}>User</option>
+                </select>
                 <hr />
                 <button>Update</button>
             </form>
