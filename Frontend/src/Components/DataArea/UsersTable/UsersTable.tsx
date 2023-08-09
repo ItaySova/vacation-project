@@ -41,7 +41,7 @@ function UsersTable(): JSX.Element {
                     <th>remove</th>
                 </tr>
                 {users.map(user => 
-                    <tr>
+                    <tr key={user.userId}>
                     <td>{user.firstName}</td>
                     <td>{user.lastName}</td>
                     <td>{user.email}</td>
