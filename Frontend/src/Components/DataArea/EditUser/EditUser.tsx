@@ -18,7 +18,6 @@ function EditUser(): JSX.Element {
         const id = +params.userId;
         userService.getOneUser(id)
         .then(res => {
-            console.log(res)
             setValue("userId", res.userId);
             setValue("firstName", res.firstName);
             setValue("lastName", res.lastName);
@@ -53,8 +52,11 @@ function EditUser(): JSX.Element {
                 <label>first name: </label>
                 <input type="text" {...register("firstName")} required minLength={2} maxLength={100} />
                 <hr />
-                <label>lastName: </label>
+                <label>last Name: </label>
                 <input type="text" {...register("lastName")} required minLength={2} maxLength={100} />
+                <hr />
+                <label>password: </label>
+                <input type="password" {...register("password")} required minLength={2} maxLength={100} />
             </form>
         </div>
     );
