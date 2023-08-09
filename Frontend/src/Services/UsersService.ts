@@ -9,6 +9,12 @@ class UserService {
         let users = response.data;
         return users;
     }
+
+    public async getOneUser(id: number): Promise<UserModel>{
+        const response = await axios.get<UserModel>(appConfig.userUrl + id);
+        let user = response.data;
+        return user;
+    }
 }
 
 
