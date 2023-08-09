@@ -31,7 +31,7 @@ function UsersTable(): JSX.Element {
 
     return (
         <div className="UsersTable">
-            <h1>will be users page</h1>
+            <h1>Users table</h1>
             <table>
                 <tr>
                     <th>first name</th>
