@@ -20,6 +20,11 @@ class UserService {
         const response = await axios.put<UserModel>(appConfig.userUrl + user.userId, user);
         // update when implementing redux
     }
+
+    public async deleteUser(userID:number):Promise<void>{
+        const response = await axios.delete<UserModel>(appConfig.userUrl + userID);
+        // update when implementing redux
+    }
 }
 
 
