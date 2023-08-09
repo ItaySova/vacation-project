@@ -49,6 +49,7 @@ function UsersTable(): JSX.Element {
                     <th>first name</th>
                     <th>last name</th>
                     <th>email</th>
+                    <th>role</th>
                     <th>edit</th>
                     <th>remove</th>
                 </tr>
@@ -57,6 +58,7 @@ function UsersTable(): JSX.Element {
                     <td>{user.firstName}</td>
                     <td>{user.lastName}</td>
                     <td>{user.email}</td>
+                    <td>{user.roleId === RoleModel.Admin ? "Admin": "User"}</td>
                     <td><button>
                             <NavLink to={"/users/edit/" + user.userId}>Edit</NavLink>
                         </button>
