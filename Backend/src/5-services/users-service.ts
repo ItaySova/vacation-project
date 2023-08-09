@@ -29,6 +29,14 @@ async function editUser(user:UserModel): Promise<UserModel>  {
     // validations
     const errors = user.validateEdit()
     if (errors) throw new ValidationError(errors);
+
+    
+    // email validation 
+    const emailValidationQuery = `SELECT EXISTS(SELECT * FROM users_table WHERE email = '${user.email}') AS isTaken`;
+    const arr = await dal.execute(emailValidationQuery);
+    const isTaken: number = arr[0].isTaken;
+    if (isTaken === 1) throw new ValidationError(`the email ${user.email} is taken`);
+
     const sql = `UPDATE users_table SET
     firstName =?,
     lastName =?,
