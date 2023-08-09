@@ -160,10 +160,6 @@ async function deleteVacation(id: number): Promise<void> {
 
 }
 
-async function deleteFollow(userId: number, vacationId: number): Promise<void> {
-    const sql = `DELETE FROM followers_table WHERE userId=${userId} AND vacationId=${vacationId}`;
-    const result: OkPacket = await dal.execute(sql);
-}
 
 // in case of deleting a vacation - remove all its likes from the table
 async function deleteVacationsFollows(vacationId: number): Promise<void> {
@@ -217,7 +213,6 @@ export default {
     addVacation,
     editVacation,
     deleteVacation,
-    deleteFollow,
     deleteVacationsFollows
 };
 
