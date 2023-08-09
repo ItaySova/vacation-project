@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import UserModel from "../../../Models/UserModel";
 import userService from "../../../Services/UsersService";
 import notifyService from "../../../Services/NotifyService";
+import RoleModel from "../../../Models/RoleModel";
 
 function UsersTable(): JSX.Element {
     const navigate = useNavigate();
@@ -17,6 +18,11 @@ function UsersTable(): JSX.Element {
             navigate("/login");
             return;
         }
+        if (user.roleId == RoleModel.User) {
+            navigate("/home")
+            return;
+        }
+        
         userService.getAllUsers()
             .then(res => setUsers(res))
             .catch(err => notifyService.error(err))
