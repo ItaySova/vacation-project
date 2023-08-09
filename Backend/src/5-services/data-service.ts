@@ -62,7 +62,6 @@ async function getVacations(userId: number, options?: { page?: number, showFollo
 }
 
 async function getSingleVacation(id: number): Promise<VacationModel> {
-    const sql = `SELECT * FROM vacation_table WHERE vacationId = ${id}`
     const sql2 = `SELECT vacationId,
     destination,
     description,
