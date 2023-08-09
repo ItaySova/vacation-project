@@ -32,10 +32,13 @@ async function editUser(user:UserModel): Promise<UserModel>  {
 
     
     // email validation 
-    const emailValidationQuery = `SELECT EXISTS(SELECT * FROM users_table WHERE email = '${user.email}') AS isTaken`;
+    const emailValidationQuery = `SELECT userId as users
+    FROM users_table
+    WHERE email = '${user.email}' AND NOT userId='${user.userId}'`;
     const arr = await dal.execute(emailValidationQuery);
-    const isTaken: number = arr[0].isTaken;
-    if (isTaken === 1) throw new ValidationError(`the email ${user.email} is taken`);
+    // const isTaken: number = arr[0].Taken;
+    // console.log(arr.length)
+    if (arr.length >= 1) throw new ValidationError(`the email ${user.email} is taken`);
 
     const sql = `UPDATE users_table SET
     firstName =?,
