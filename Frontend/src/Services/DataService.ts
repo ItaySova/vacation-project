@@ -40,7 +40,7 @@ class DataService {
         const response = await axios.get<{ vacations: VacationModel[], numOfPages: number }>(url);
 
         // Extract products: 
-        vacations = response.data.vacations; // data will be ProductModel[]
+        vacations = response.data.vacations; //
         numOfPages = response.data.numOfPages;
 
         // Update global store: 
