@@ -5,7 +5,6 @@ import { OkPacket } from "mysql";
 async function addFollow(userId: number, vacationId: number): Promise<number[]> {
     const sql = `INSERT INTO followers_table VALUES(${userId},${vacationId})`;
     const result: OkPacket = await dal.execute(sql);
-    // return result.affectedRows;
     return [
         userId,
         vacationId
