@@ -3,6 +3,7 @@ import verifyLoggedIn from "../3-middleware/verify-logged-in";
 import cyber from "../4-utils/cyber";
 import followService from "../5-services/follow-service";
 import verifyAdmin from "../3-middleware/verify-admin";
+import FollowerModel from "../2-models/follower-model";
 
 const router = express.Router();
 
@@ -10,7 +11,9 @@ router.post("/follower/:vacationId([0-9]+)", verifyLoggedIn, async (request: Req
     try {
         const user = await cyber.decodeUser(request)
         const vacationId = +request.params.vacationId
-        const addedFollower = await followService.addFollow(user.userId, vacationId)
+        const follower = new FollowerModel({"userId":user.userId, "vacationId":vacationId} as FollowerModel)
+        // const addedFollower = await followService.addFollow(user.userId, vacationId)
+        const addedFollower = await followService.addFollowFixed(follower)
         response.status(201).json(addedFollower)
     }
     catch (err: any) {
