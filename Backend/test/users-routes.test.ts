@@ -5,8 +5,15 @@ import supertest from "supertest";
 
 
 describe("testing users routes", ()=>{
-    it("should register existing admin", async ()=>{
-        const response = await supertest(app.server).get("/api/users");
+    let token = null
+
+    before(async () => {
+        const response = await supertest(app.server).post("/api/login").send({ email: 'admin@gmail.com', password: 'hardpass' })
+        token = response.body;
+      });
+
+    it("should get all users", async ()=>{
+        const response = await supertest(app.server).get("/api/users").set('Authorization', 'Bearer ' + token);
         const users = response.body;
         expect(users.length).to.be.greaterThanOrEqual(2);
     });
