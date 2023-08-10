@@ -21,7 +21,9 @@ describe("testing followers routes", ()=>{
     });
 
     it("should remove the added follow from last test", async ()=>{
-        // add later
+        const response = await supertest(app.server).delete("/api/follower/1").set('Authorization', 'Bearer ' + token);
+        expect(response).to.haveOwnProperty("status", 204);
+
     });
 
     it("should add follows of non-existing vacations and users and delete them with the clear function ", async ()=>{
