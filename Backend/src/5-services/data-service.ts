@@ -130,7 +130,6 @@ async function editVacation(vacation: VacationModel): Promise<VacationModel> {
     price =?,
     pictureName =?
     WHERE vacationId = '${vacation.vacationId}'`
-
     const result: OkPacket = await dal.execute(sql, [vacation.destination, vacation.description, vacation.startDate, vacation.endDate, vacation.price, imageName]);
 
     if (result.affectedRows === 0) throw new ResourceNotFoundError(vacation.vacationId);
