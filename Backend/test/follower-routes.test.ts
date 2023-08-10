@@ -20,4 +20,8 @@ describe("testing followers routes", ()=>{
         // add later
     });
 
+    it("should add follows of non-existing vacations and users and delete them with the clear function ", async ()=>{
+        // add later
+    });
+
 });
