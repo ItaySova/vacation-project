@@ -36,7 +36,8 @@ async function resetFollowerTable(): Promise<void> {
 
 // function to remove follows between removed vacations or users
 async function cleanFollowersTable(): Promise<void>{
-    //add
+    const sql = `DELETE FROM followers_table where followers_table.vacationId NOT IN (SELECT vacationId FROM vacation_table)`;
+    const result:OkPacket = await dal.execute(sql)
 }
 
 export default {
