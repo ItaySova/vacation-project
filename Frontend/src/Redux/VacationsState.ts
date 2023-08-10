@@ -56,7 +56,7 @@ export function vacationsReducer(currentState = new VacationsState(), action: Va
 
         // follow redux state
         case VacationsActionType.addFollow:
-            const indexToAddFollow = newState.vacations.findIndex(p => p.vacationId === action.payload[1])
+            const indexToAddFollow = newState.vacations.findIndex(p => p.vacationId === action.payload.vacationId)
             // update the follow state
             newState.vacations[indexToAddFollow].isFollowing = 1;
             newState.vacations[indexToAddFollow].followersCount += 1;
