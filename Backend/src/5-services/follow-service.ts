@@ -1,3 +1,5 @@
+import { ValidationError } from "../2-models/client-errors";
+import FollowerModel from "../2-models/follower-model";
 import dal from "../4-utils/dal";
 import { OkPacket } from "mysql";
 
@@ -9,6 +11,15 @@ async function addFollow(userId: number, vacationId: number): Promise<number[]> 
         userId,
         vacationId
     ];
+}
+
+async function addFollowFixed(follower: FollowerModel): Promise<FollowerModel> {
+    const sqlValidation = `SELECT * FROM followers_table WHERE userId = ? and vacationId = ?`;
+    const exist = await dal.execute(sqlValidation, [follower.userId, follower.vacationId]);
+    if (exist.length > 1) throw new ValidationError(`resource exist`);
+    const sql = `INSERT INTO followers_table VALUES(${follower.userId},${follower.vacationId})`;
+    const result:OkPacket = await dal.execute(sql);
+    return follower;
 }
 
 async function deleteFollow(userId: number, vacationId: number): Promise<void> {
@@ -41,6 +52,7 @@ async function cleanFollowersTable(): Promise<void>{
 
 export default {
     addFollow,
+    addFollowFixed,
     deleteFollow,
     deleteVacationsFollows,
     deleteUsersFollow,
