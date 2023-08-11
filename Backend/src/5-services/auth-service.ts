@@ -23,6 +23,9 @@ async function register(user: UserModel): Promise<string> {
     // Set role as a regular user:
     user.roleId = RoleModel.User;
 
+    // hash the password
+    user.password = cyber.hashPassword(user.password)
+
     // Create query:
     const sql = `INSERT INTO users_table VALUES(
         DEFAULT,
@@ -83,6 +86,9 @@ async function login(credentials: CredentialsModel): Promise<string> {
     // TODO: Joi Validation...
     const errors = credentials.validateLogin();
     if (errors) throw new ValidationError(errors);
+
+    // hash the password
+    credentials.password = cyber.hashPassword(credentials.password)
     // Query:
     const sql = `SELECT * FROM users_table WHERE
         email = '${credentials.email}' AND
