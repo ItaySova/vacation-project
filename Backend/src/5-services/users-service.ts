@@ -3,6 +3,7 @@ import { ResourceNotFoundError, ValidationError } from "../2-models/client-error
 import UserModel from "../2-models/user-model";
 import dal from "../4-utils/dal";
 import { use } from "chai";
+import cyber from "../4-utils/cyber";
 
 
 async function getUserByEmail(email:string): Promise<UserModel> {
@@ -39,6 +40,9 @@ async function editUser(user:UserModel): Promise<UserModel>  {
     // const isTaken: number = arr[0].Taken;
     // console.log(arr.length)
     if (arr.length >= 1) throw new ValidationError(`the email ${user.email} is taken`);
+
+    // hash password
+    user.password = cyber.hashPassword(user.password)
 
     const sql = `UPDATE users_table SET
     firstName =?,
