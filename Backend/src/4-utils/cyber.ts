@@ -133,5 +133,6 @@ export default {
     createToken,
     verifyToken,
     verifyAdmin,
-    decodeUser
+    decodeUser,
+    hashPassword
 };
