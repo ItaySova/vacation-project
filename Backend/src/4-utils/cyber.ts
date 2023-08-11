@@ -1,10 +1,15 @@
 import UserModel from "../2-models/user-model";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 import { Request } from "express";
 import { UnauthorizedError } from "../2-models/client-errors";
 import RoleModel from "../2-models/role-model";
 
 const secretKey = "The Amazing 4578-85 Students!";
+
+function hashPassword(plainText: string): string {
+
+}
 
 // Create new token:
 function createToken(user: UserModel): string {
