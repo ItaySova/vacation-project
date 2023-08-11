@@ -8,6 +8,10 @@ import RoleModel from "../2-models/role-model";
 const secretKey = "The Amazing 4578-85 Students!";
 
 function hashPassword(plainText: string): string {
+    
+    if (!plainText) return null;
+
+    return crypto.createHash("sha512").update(plainText).digest("hex")
 
 }
 
