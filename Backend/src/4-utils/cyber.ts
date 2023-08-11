@@ -11,7 +11,10 @@ function hashPassword(plainText: string): string {
     
     if (!plainText) return null;
 
-    return crypto.createHash("sha512").update(plainText).digest("hex")
+    const salt = "verySaltString"
+
+    // return crypto.createHash("sha512").update(plainText).digest("hex")
+    return crypto.createHmac("sha512", salt).update(plainText).digest("hex")
 
 }
 
