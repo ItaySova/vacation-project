@@ -1,13 +1,14 @@
 import { NextFunction, Request, Response } from "express";
-import striptags from "striptags";
+import stripTags from "striptags";
 
 function sanitize(request: Request, response: Response, next: NextFunction) {
-    try {
-        next();
+    for (const prop in request.body){
+        if( typeof(request.body[prop]) === "string"){
+            request.body[prop] = stripTags(request.body[prop])
+        }
     }
-    catch(err: any) {
-        next(err);
-    }
+
+    next()
 }
 
 export default sanitize;
