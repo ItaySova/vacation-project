@@ -11,11 +11,13 @@ import catchAll from "./3-middleware/catch-all";
 import appConfig from "./4-utils/app-config";
 import logRequests from "./3-middleware/log-requests";
 import sanitize from "./3-middleware/sanitize";
+import helmet from "helmet";
 
 const server = express();
 
 server.use(cors({ origin: "http://localhost:3000" }));
 server.use(expressRateLimits({windowMs:1000, max: 5, message: "too many requests"}))
+server.use(helmet())
 server.use(express.json());
 server.use(logRequests)
 server.use(expressFileUpload());
