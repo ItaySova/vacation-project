@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import expressRateLimits from "express-rate-limit"
 import expressFileUpload from "express-fileupload";
 import dataRoutes from "./6-routes/data-routes";
 import followerRoutes from "./6-routes/followers-routes";
