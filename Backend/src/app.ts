@@ -14,7 +14,8 @@ import sanitize from "./3-middleware/sanitize";
 
 const server = express();
 
-server.use(cors({ origin: "http://localhost:3000" })); 
+server.use(cors({ origin: "http://localhost:3000" }));
+server.use(expressRateLimits({windowMs:1000, max: 5, message: "too many requests"}))
 server.use(express.json());
 server.use(logRequests)
 server.use(expressFileUpload());
