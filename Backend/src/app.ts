@@ -15,9 +15,16 @@ import helmet from "helmet";
 
 const server = express();
 
-server.use(cors({ origin: "http://localhost:3000" }));
-server.use(expressRateLimits({windowMs:1000, max: 5, message: "too many requests"}))
-server.use(helmet())
+server.use(cors({ origin: "http://localhost:3000" })); 
+
+// Prevent DoS attack:
+server.use(expressRateLimits({
+    windowMs: 1000, // Window time to count requests.
+    max: 50, // Max requests allowed in that window.
+    message: "Too Many Requests" // Optional message
+}));
+
+server.use(helmet());
 server.use(express.json());
 server.use(logRequests)
 server.use(expressFileUpload());
