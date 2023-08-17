@@ -35,7 +35,7 @@ function VacationCardAdmin(props: VacationCardProps): JSX.Element {
     return (
         <div className="VacationCardAdmin">
             <Card style={{ width: '18rem' }}>
-                <Card.Img className="card_image" variant="top" src={`${props.vacation.pictureName}`} />
+                <Card.Img className="card_image" variant="top" crossOrigin="anonymous" src={`${props.vacation.pictureName}`} />
                 <Card.Body>
                     <Card.Title>{props.vacation.destination}</Card.Title>
                     <Card.Text className="card_body">{props.vacation.description}</Card.Text>
