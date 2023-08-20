@@ -39,7 +39,9 @@ server.use("/api", authRoute);
 server.use(routeNotFound);
 server.use(catchAll);
 
-server.listen(appConfig.port, () => console.log("Listening on http://localhost:" + appConfig.port));
+const sslServer = https.createServer({}, server);
+
+sslServer.listen(appConfig.port, () => console.log("Listening on http://localhost:" + appConfig.port));
 
 export default {
     server
