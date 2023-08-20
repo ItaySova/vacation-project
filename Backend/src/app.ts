@@ -39,7 +39,10 @@ server.use("/api", authRoute);
 server.use(routeNotFound);
 server.use(catchAll);
 
-const sslServer = https.createServer({}, server);
+const sslServer = https.createServer({
+    key: fs.readFileSync(path.join(__dirname,"..", "certificate", "certificate.key")),
+    cert:  fs.readFileSync(path.join(__dirname,"..", "certificate", "certificate.crt"))
+}, server);
 
 sslServer.listen(appConfig.port, () => console.log("Listening on http://localhost:" + appConfig.port));
 
