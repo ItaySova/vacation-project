@@ -15,6 +15,7 @@ import appConfig from "./4-utils/app-config";
 import logRequests from "./3-middleware/log-requests";
 import sanitize from "./3-middleware/sanitize";
 import helmet from "helmet";
+import socketIoLogic from "./4-utils/socketIo";
 
 const server = express();
 
@@ -44,7 +45,10 @@ const sslServer = https.createServer({
     cert:  fs.readFileSync(path.join(__dirname,"..", "certificate", "certificate.crt"))
 }, server);
 
-sslServer.listen(appConfig.port, () => console.log("Listening on https://localhost:" + appConfig.port));
+// sslServer.listen(appConfig.port, () => console.log("Listening on https://localhost:" + appConfig.port));
+
+const httpsServer = sslServer.listen(appConfig.port, () => console.log("Listening on https://localhost:" + appConfig.port));
+socketIoLogic(httpsServer);
 
 export default {
     sslServer
