@@ -1,5 +1,5 @@
 import {Server as HTTPSServer} from 'https'
-import {Server as SocketIoServer} from 'socket.io'
+import {Socket, Server as SocketIoServer} from 'socket.io'
 
 function socketIoLogic(httpsServer: HTTPSServer):void{
     const options = {
@@ -8,8 +8,10 @@ function socketIoLogic(httpsServer: HTTPSServer):void{
         }
     }
     const mySocketIOServer = new SocketIoServer(httpsServer);
-    mySocketIOServer.sockets.on("connection", ()=>{
+    mySocketIOServer.sockets.on("connection", (socket : Socket)=>{
         console.log("connected to socket")
+
+        socket.on("msg-from-client", (msg:string)=>{})
     })
 }
 
