@@ -44,8 +44,8 @@ const sslServer = https.createServer({
     cert:  fs.readFileSync(path.join(__dirname,"..", "certificate", "certificate.crt"))
 }, server);
 
-sslServer.listen(appConfig.port, () => console.log("Listening on http://localhost:" + appConfig.port));
+sslServer.listen(appConfig.port, () => console.log("Listening on https://localhost:" + appConfig.port));
 
 export default {
-    server
+    sslServer
 };
