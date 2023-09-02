@@ -11,7 +11,9 @@ function socketIoLogic(httpsServer: HTTPSServer):void{
     mySocketIOServer.sockets.on("connection", (socket : Socket)=>{
         console.log("connected to socket")
 
-        socket.on("msg-from-client", (msg:string)=>{})
+        socket.on("msg-from-client", (msg:string)=>{
+            socket.emit("msg-from-server", msg) // echo the massage
+        })
     })
 }
 
