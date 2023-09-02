@@ -11,6 +11,10 @@ class SocketIoService{
             gotMassage(msg);
         })
     }
+
+    public send(msg:string){
+        this.socket.emit("msg-from-client", msg)
+    }
 }
 
 const socketService = new SocketIoService();
