@@ -14,6 +14,11 @@ function socketIoLogic(httpsServer: HTTPSServer):void{
         socket.on("msg-from-client", (msg:string)=>{
             socket.emit("msg-from-server", msg) // echo the massage
         })
+
+        socket.on("disconnect", ()=>{
+            socket.emit("msg-from-server", "client has left the chat")
+            console.log("client has disconnected")
+        })
     })
 }
 
