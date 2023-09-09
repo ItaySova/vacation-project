@@ -13,6 +13,7 @@ class SocketIoService{
     }
 
     public send(msg:string): void{
+        alert("massage sent from socket sevice")
         this.socket.emit("msg-from-client", msg)
     }
 
