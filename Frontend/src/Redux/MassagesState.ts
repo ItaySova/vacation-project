@@ -22,7 +22,7 @@ export function massagesReducer(currentState = new MassageState(), action: Massa
     // Perform the needed action on the newState:
     switch (action.type) {
 
-        case MassagesActionType.addMassage: // Here, the payload is all products for saving
+        case MassagesActionType.addMassage:
             newState.massages.push(action.payload);
             break;
 
