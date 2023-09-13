@@ -1,11 +1,12 @@
 import { SyntheticEvent, useState } from "react";
 import socketService from "../../../Services/SocketIoService";
 import "./UsersChat.css";
+import { massagesStore, MassagesActionType } from "../../../Redux/MassagesState";
+import MassageModel from "../../../Models/MassageModel";
 
 function UsersChat(): JSX.Element {
 
     const [massage, setMassage] = useState<string>("");
-    const [incommingMassage, setIncoming] = useState<string>("");
 
     function connect(){
         alert("connected")
@@ -13,7 +14,7 @@ function UsersChat(): JSX.Element {
     }
 
     function gotMassage(msg:string){
-        setIncoming(msg)
+        massagesStore.dispatch({type:MassagesActionType.addMassage, payload: {name: "test", massage: msg} as MassageModel})
     }
 
     function disconnect(){
@@ -40,7 +41,8 @@ function UsersChat(): JSX.Element {
             <br />
             <input type="text" onChange={handleMassage} value={massage}/>
             <button onClick={sendMsg}>send</button>
-            <p>{incommingMassage}</p>
+            {massagesStore.getState().massages.map( m =>
+                <p>{m.name}:{m.massage}</p>)}
         </div>
     );
 }
