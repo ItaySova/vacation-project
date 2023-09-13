@@ -12,9 +12,9 @@ function socketIoLogic(httpsServer: HTTPSServer):void{
         console.log(`connected to socket, number of clients: ${mySocketIOServer.engine.clientsCount}`)
 
         socket.on("msg-from-client", (msg:string)=>{
-            socket.emit("msg-from-server", msg) // echo the massage
+            // socket.emit("msg-from-server", msg) // echo the massage
             console.log(`massage emitted: ${msg}`)
-            // mySocketIOServer.sockets.emit("msg-from-server", msg)
+            mySocketIOServer.sockets.emit("msg-from-server", msg)
         })
 
         socket.on("disconnect", ()=>{
