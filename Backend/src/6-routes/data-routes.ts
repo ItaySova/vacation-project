@@ -14,7 +14,6 @@ const router = express.Router();
 router.get("/vacations", verifyLoggedIn, async (request: Request, response: Response, next: NextFunction) => {
     try {
         const user = await cyber.decodeUser(request)
-        // console.log(request.query)
         const serviceRequest = await dataService.getVacations(user.userId, {
             page: Number(request.query.page),
             showFollowed: Boolean(request.query.showFollowed),
