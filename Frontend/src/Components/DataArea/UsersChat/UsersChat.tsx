@@ -38,7 +38,6 @@ function UsersChat(): JSX.Element {
     function sendMsg(){
         socketService.send(massage);
         if (massage !== "") {
-            console.log("btn test")
             setMassage("")}
     }
 
