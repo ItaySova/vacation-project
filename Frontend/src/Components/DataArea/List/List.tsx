@@ -21,16 +21,16 @@ function List(): JSX.Element {
 
         if (!user) {
             navigate("/login");
-            // return;
+            return;
         }
 
-        // Take number of products length into count: 
+        // Take number of vacations length into count: 
         setCount(vacationsStore.getState().vacations.length);
 
         // Subscribe for changes (any dispatch will invoke the callback): 
         const unsubscribe = vacationsStore.subscribe(() => {
 
-            // Take number of products length into count: 
+            // Take number of vacations length into count: 
             setCount(vacationsStore.getState().vacations.length);
         });
 
@@ -38,7 +38,7 @@ function List(): JSX.Element {
         return () => unsubscribe();
     }, [])
 
-    // Get all products once:
+    // Get all vacations once:
     useEffect(() => {
         dataService.getAllVacations({ page: pageState })
             .then(response => {
