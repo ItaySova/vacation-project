@@ -1,12 +1,25 @@
-import { SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import socketService from "../../../Services/SocketIoService";
 import "./UsersChat.css";
 import { massagesStore, MassagesActionType } from "../../../Redux/MassagesState";
 import MassageModel from "../../../Models/MassageModel";
+import { authStore } from "../../../Redux/AuthState";
 
 function UsersChat(): JSX.Element {
 
     const [massage, setMassage] = useState<string>("");
+    const [chatHistory, setCHat] = useState<MassageModel[]>([]);
+    const [UserName,setName] = useState<string>();
+
+    useEffect(()=>{
+        const UserName = authStore.getState().user.firstName;
+        setName(UserName);
+
+        const unsubscribe = massagesStore.subscribe(()=>{
+            const updatedChat = [...massagesStore.getState().massages];
+            setCHat(updatedChat);
+        })
+    },[])
 
     function connect(){
         alert("connected")
@@ -14,7 +27,7 @@ function UsersChat(): JSX.Element {
     }
 
     function gotMassage(msg:string){
-        massagesStore.dispatch({type:MassagesActionType.addMassage, payload: {name: "test", massage: msg} as MassageModel})
+        massagesStore.dispatch({type:MassagesActionType.addMassage, payload: {name: UserName, massage: msg} as MassageModel})
     }
 
     function disconnect(){
@@ -41,7 +54,7 @@ function UsersChat(): JSX.Element {
             <br />
             <input type="text" onChange={handleMassage} value={massage}/>
             <button onClick={sendMsg}>send</button>
-            {massagesStore.getState().massages.map( m =>
+            {chatHistory.map( m =>
                 <p>{m.name}:{m.massage}</p>)}
         </div>
     );
